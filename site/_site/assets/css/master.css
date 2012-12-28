@@ -1,0 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700);
+
+/*
+ * master styles for nds2013
+ */
+
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+
+#container {
+    width: 1000px;
+    margin: 0 auto;
+}

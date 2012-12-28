@@ -1,0 +1,242 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700);
+
+@charset "utf-8";
+/* =======================================================================
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+*
+*   FileName          :  reset.css ;
+*   Version           :  1.0.0 ;
+*   CSS Version       :  2.1 or Later ;
+*   Author            :  Shotaro Emori <emorins@gmail.com>
+*   Last Update       :  2008/09/30 ;
+*   License           :  BSD License ;
+*
+*   Copyright 2008-2010 emor.in. All rights reserved.
+*
+*   Redistribution and use in source and binary forms, with or without
+*   modification, are permitted provided that the following conditions
+*   are met:
+*
+*   1. Redistributions of source code must retain the above copyright
+*      notice, this list of conditions and the following disclaimer.
+*   2. Redistributions in binary form must reproduce the above copyright
+*      notice, this list of conditions and the following disclaimer in
+*      the documentation and/or other materials provided with the
+*      distribution.
+*
+*   BSD License (2 Clause)
+*
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+======================================================================= */
+/* =======================================================================
+ * All style reset
+ * ==================================================================== */
+html,
+iframe,noframes,
+body,div,
+p,
+h1,h2,h3,h4,h5,h6,
+ul,ol,menu,dir,li,dl,dt,dd,
+address,
+hr,
+pre,
+blockquote,
+center,
+ins,del,
+a,
+span,bdo,br,em,strong,dfn,code,samp,kbd,var,cite,abbr,acronym,q,sub,sup,
+tt,i,b,big,small,u,s,strike,basefont,font,
+object,param,
+applet,
+img,
+map,area,
+form,label,input,select,optgroup,option,textarea,fieldset,legend,button,
+isindex,
+table,caption,thead,tfoot,tbody,colgroup,col,tr,th,td{
+   margin: 0;
+   padding: 0;
+   border: 0;
+   outline: 0;
+   zoom:1;
+   text-align: left;
+   vertical-align: baseline;
+   background: transparent;
+   font-weight: normal;
+   font-style: normal;
+}
+center{
+   text-align: center;
+}
+/* =======================================================================
+ * Lists
+ * ==================================================================== */
+ol, ul {
+   list-style: none inside;
+}
+li{
+   zoom : normal;
+}
+/* =======================================================================
+ * Block-like Quotes 
+ * ==================================================================== */
+blockquote, q {
+   quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+   content: '';
+   content: none;
+}
+/* =======================================================================
+ * Inserted/Deleted Text
+ * ==================================================================== */
+ins {
+   text-decoration: underline;
+}
+del {
+   text-decoration: line-through;
+}
+/* =======================================================================
+ * Tables
+ * ==================================================================== */
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+/* =======================================================================
+ * 
+ * ==================================================================== */
+:focus {
+   outline: 0;
+}
+/* =======================================================================
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+*
+*
+*   Yahoo UI Library Fonts CSS
+*   http://developer.yahoo.com/yui/fonts/
+*   *Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+*   *http://developer.yahoo.com/yui/license.txt
+*   
+*   Font-size Adjustment
+*   
+*   77% = 10px   |   112% = 16px   |   167% = 22px
+*   85% = 11px   |   129% = 17px   |   174% = 23px
+*   92% = 12px   |   136% = 18px   |   182% = 24px
+*   100% = 13px  |   144% = 19px   |   189% = 25px
+*   107% = 14px  |   152% = 20px   |   197% = 26px
+*   114% = 15px  |   159% = 21px   |   
+*
+*
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+======================================================================= */
+/* =======================================================================
+ * Yahoo UI Library Fonts CSS
+ * ==================================================================== */
+body{
+   font: 13px/1.231 arial,helvetica,clean,sans-serif;
+   *font-size: small;
+   *font: x-small;
+}
+select,input,button,textarea{
+   font:99% arial,helvetica,clean,sans-serif;
+}
+table {
+   font-size: inherit;
+   font: 100%;
+}
+pre,code,kbd,samp,tt{
+   font-family: monospace;
+   *font-size: 108%;
+   line-height: 100%;
+}
+/* =======================================================================
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+*
+*
+*
+*
+*
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+======================================================================= */
+/* =======================================================================
+ * 
+ * ==================================================================== */
+* {
+   line-height: 1.5;
+   font-size: 100%;
+}
+body {
+   color: #000;
+}
+
+/*
+ * master styles for nds2013
+ */
+
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+#container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.menu {
+    margin: 20px 0 30px;
+    height: 28px;
+}
+
+.menu .item a {
+    border: 1px solid #bbb;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-right: 5px;
+    float: left;
+    box-shadow: inset 0px 0px 6px #ddd;
+}
+
+.menu .item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.menu .item.active a {
+    font-weight: bold;
+    background: #eee;
+}
+
+.header-inner {
+    clear: both;
+    background: url(/assets/img/ndslogo.png) no-repeat;
+    padding-left: 80px;
+    min-height: 70px;
+}
+
+
+.title {
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 30px;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 50px;
+}
+
+#footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}

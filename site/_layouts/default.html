@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{ page.title }}</title>
+<link rel="stylesheet" media="screen" href="/all.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+</head>
+<body>
+<div id="container">
+  <header class="group">
+    <div class="menu">
+        {% for k in page.menu %}
+        {% capture u %}{{ k[0] | append:'.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
+        <div class="item{% if u == page.url %} active{% endif %}"><a href="{{ page.lang }}/{{ k[0] }}.html">{{ k[1] }}</a></div>
+        {% endfor %}
+    </div>
+    <div class="header-inner">
+        <h1 class="title">{{ page.bigtitle }}</h1>
+        <h2 class="subtitle">{{ page.title }}</h2>
+    </div>
+  </header>
+  <div id="content">
+    {{ content }}
+  </div>
+  <div id="footer">
+    {{ page.visualization }}: Gregor Aisch
+  </div>
+</div>
+</body>
+</html>

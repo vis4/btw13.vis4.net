@@ -1,0 +1,65 @@
+
+/*
+ * master styles for nds2013
+ */
+
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+#container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.menu {
+    margin: 20px 0 30px;
+    height: 28px;
+}
+
+.menu .item a {
+    border: 1px solid #bbb;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-right: 5px;
+    float: left;
+    box-shadow: inset 0px 0px 6px #ddd;
+}
+
+.menu .item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.menu .item.active a {
+    font-weight: bold;
+    background: #eee;
+}
+
+.header-inner {
+    clear: both;
+    background: url(/assets/img/ndslogo.png) no-repeat;
+    padding-left: 80px;
+    min-height: 70px;
+}
+
+
+.title {
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 30px;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 50px;
+}
+
+#footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
