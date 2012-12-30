@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page.lang }}">
 <head>
 <title>{{ page.title }}</title>
-<link rel="stylesheet" media="screen" href="/all.css"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+  <link rel="stylesheet" media="screen" href="/all.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 </head>
 <body>
 <div id="container">
   <header class="group">
     <div class="menu">
         {% for k in page.menu %}
-        {% capture u %}{{ k[0] | append:'.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
-        <div class="item{% if u == page.url %} active{% endif %}"><a href="{{ page.lang }}/{{ k[0] }}.html">{{ k[1] }}</a></div>
+        {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
+        <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ page.lang }}/{{ k[0] }}/">{{ k[1] }}</a></div>
         {% endfor %}
     </div>
     <div class="header-inner">
-        <h1 class="title">{{ page.bigtitle }}</h1>
+        <h1 class="title">{{ "Landtagswahl in Niedersachsen" | t: 'Lower Saxony State Election' }}</h1>
         <h2 class="subtitle">{{ page.title }}</h2>
     </div>
   </header>
@@ -23,8 +23,17 @@
     {{ content }}
   </div>
   <div id="footer">
-    {{ page.visualization }}: Gregor Aisch
+    <div>
+      {{ "Konzept und Visualisierung" | t: "Idea &amp; Visualization" }}: Gregor Aisch
+    </div>
+
+    <div>
+        {{ "Quellen" | t: "Sources" }}: © Landesbetrieb für Statistik und Kommunikationstechnologie Niedersachsen, 2001-2012.
+      </div>
   </div>
 </div>
+  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
+  {% if page.script %}<script type="text/javascript" src="{{ page.script }}"></script>{% endif %}
 </body>
 </html>

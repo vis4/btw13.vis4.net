@@ -176,12 +176,21 @@ body {
    color: #000;
 }
 
+
 /*
  * master styles for nds2013
  */
 
 body {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+sup {
+    font-size: 70%;
+    font-weight: bold;
+    position: relative;
+    top: -4px;
+    background: #ffc;
 }
 
 #container {
@@ -240,3 +249,88 @@ body {
     padding-top: 10px;
     border-top: 1px solid #ddd;
 }
+
+/*** wahlkreise ***/
+
+.wahlkreise {
+    margin-top: 20px;
+}
+
+.wahlkreise .wahlkreis {
+    line-height: 34px;
+}
+
+.wahlkreis > div {
+    display: inline-block;
+}
+
+.wahlkreis.header {
+    height: 40px;
+}
+.wahlkreis.header div {
+    font-weight: bold;
+}
+
+.wahlkreis .name {
+    width: 20%;
+}
+
+.wahlkreis .pop {
+    width: 10%;
+}
+
+.wahlkreis .est {
+    text-align: center;
+    width: 100px;
+}
+
+.wahlkreis .win {
+    width: 15%;
+}
+.wahlkreis .win2 {
+    width: 180px;
+}
+.wahlkreis:hover  {
+    background: #eee;
+}
+.wahlkreis.header:hover {
+    background: none;
+}
+.wahlkreis.header .sortable {
+    cursor: pointer;
+}
+.wahlkreis.header .sortable:hover {
+    background: #fee;
+}
+.wahlkreis.header .sorted {
+    text-decoration: underline;
+}
+.wahlkreis .win div {
+    display: inline-block;
+    margin-right: 1px;
+    font-size: 11px;
+    font-weight: 400;
+    width: 30px;
+    line-height: 27px;
+    text-align: center;
+    background: #ccc;
+    color: #fff;
+}
+.wahlkreis .win div.highlight {
+    font-weight: bold;
+}
+
+.wahlkreis.header .win div {
+    background: none;
+    font-weight: 400;
+    color: #000;
+    line-height: 15px;
+    font-style: italic;
+}
+
+.wahlkreis .win .CDU { background: #222;  }
+.wahlkreis .win .SPD { background: #900;  }
+.wahlkreis .win .FDP { background: #E1E435; color: #222; }
+.wahlkreis .win .GRU { background: #58AB2E;  }
+.wahlkreis .win .LIN { background: #AB5882;  }
+.wahlkreis .win .PIR { background: #;  }
