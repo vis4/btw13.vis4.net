@@ -1,0 +1,215 @@
+
+$CDU: #222222
+$SPD: #E2001A
+$GRU: #1FA12D
+$FDP: #FBEE31
+$LIN: #8B1C62
+
+body
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif
+    font-size: 13px
+    line-height: 19px
+
+    #container
+        width: 1000px
+        margin: 0 auto
+
+        .menu
+            margin: 20px 0 30px
+            height: 28px
+
+            .item a
+                border: 1px solid #bbb
+                height: 28px
+                line-height: 28px
+                padding-left: 1em
+                padding-right: 1em
+                margin-right: 10px
+                float: left
+                box-shadow: inset 0px 0px 6px #ddd
+                border-radius: 14px
+                text-decoration: none
+                color: #333
+
+            .item.active a
+                font-weight: bold
+                background: #eee
+
+        .header-inner
+            clear: both
+            background: url(/assets/img/ndslogo.png) no-repeat
+            padding-left: 80px
+            min-height: 90px
+
+            .title
+                font-size: 36px
+                font-weight: 300
+                line-height: 30px
+
+            .subtitle
+                font-size: 20px
+                font-weight: normal
+                line-height: 50px
+
+
+        #content
+
+            .koalitionen
+                .canvas
+                    height: 500px
+
+            .wahlkreise
+                margin-top: 20px
+                margin-left: 220px
+
+                .wahlkreis
+                    line-height: 34px
+                    div
+                        display: inline-block
+                    .name
+                        width: 200px
+                    .est
+                        width: 100px
+                        text-align: left
+                        margin-right: 5px
+                        position: relative
+                        .bar
+                            position: absolute
+                            top: 25px
+                            left: 0
+                            height: 6px
+                            background: #ace
+                            z-index: -1
+
+                    .win
+                        width: 150px
+                        div
+                            display: inline-block
+                            margin-right: 1px
+                            font-size: 11px
+                            font-weight: 400
+                            width: 30px
+                            line-height: 27px
+                            text-align: center
+                            background: #ccc
+                            color: #fff
+                        div.highlight
+                            font-weight: bold
+                        .CDU
+                            background: $CDU
+                        .SPD
+                            background: $SPD
+                        .FDP
+                            background: $FDP
+                            color: #000
+                        .GRU
+                            background: $GRU
+                        .LIN
+                            background: $LIN
+
+                    .win2
+                        width: 180px
+
+                .wahlkreis.header
+                    div
+                        font-weight: bold
+
+                    .win div
+                        background: none
+                        font-weight: 400
+                        color: #000
+                        line-height: 15px
+                        font-style: italic
+
+                    .est
+                        text-align: left
+
+                    .sortable
+                        cursor: pointer
+
+                    .sortable:hover
+                        background: #fee
+
+                    .sortable.sorted
+                        text-decoration: underline
+
+                .wahlkreis:hover
+                    background: #eee
+
+                .wahlkreis.header:hover
+                    background: none
+
+            .wahlkreise2
+
+                position: relative
+                height: 500px
+
+                .left, .right, .center
+                    width: 330px
+                    display: inline-block
+                    position: absolute
+                    top: 0
+
+                .right
+                    right: 0
+
+                .center
+                    left: 335px
+
+                h3
+                    font-size: 15px
+                    font-weight: bold
+
+
+                .wahlkreis
+                    line-height: 34px
+                    div
+                        display: inline-block
+                    .name
+                        width: 170px
+
+                    .win
+                        width: 150px
+                        div
+                            display: inline-block
+                            margin-right: 1px
+                            font-size: 11px
+                            font-weight: 400
+                            width: 30px
+                            line-height: 27px
+                            text-align: center
+                            background: #ccc
+                            color: #fff
+                        div.highlight
+                            font-weight: bold
+                        .CDU
+                            background: $CDU
+                        .SPD
+                            background: $SPD
+                        .FDP
+                            background: $FDP
+                            color: #000
+                        .GRU
+                            background: $GRU
+                        .LIN
+                            background: $LIN
+
+        #content.wahlkreise > .left
+            float: left
+            width: 200px
+
+        #footer
+            margin-top: 20px
+            padding-top: 10px
+            border-top: 1px solid #ddd
+
+sup
+    font-size: 70%
+    font-weight: bold
+    position: relative
+    top: -4px
+    background: #ffc
+
+b
+    font-weight: bold
+
