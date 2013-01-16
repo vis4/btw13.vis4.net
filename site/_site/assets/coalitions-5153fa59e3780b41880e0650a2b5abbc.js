@@ -80,7 +80,6 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         justParties = false;
       }
       coalitions = [];
-      console.log(election);
       election.min_seats = Math.ceil((election.s + 0.5) * 0.5);
       $.each(_coalitions, function(i) {
         var coalition;
@@ -186,6 +185,9 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       setTimeout(function() {
         return $('.desc').fadeIn(1000);
       }, 2000);
+      $('.label.top').animate({
+        opacity: 0
+      });
       bar_w = Math.round((width - 220) / coalitions.length / 1.8);
       offset = width - coalitions.length * bar_w * 1.8 - 15;
       if (justParties) {
@@ -250,7 +252,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
           return sbc.toplabel.animate({
             opacity: 1
           });
-        }, 2000);
+        }, justParties ? 1000 : 2000);
         $.each(coalition.parties, function(j, party) {
           var bar, barprops, h;
           bar = sbc[party.name];
@@ -425,6 +427,9 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
           a.addClass('active');
         }
         return elsel.append(a);
+      });
+      $('<a>13</a>').appendTo(elsel).css({
+        color: '#ccc'
       });
       $('button').click(function() {
         justParties = false;

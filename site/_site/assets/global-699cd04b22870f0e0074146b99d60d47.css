@@ -235,8 +235,8 @@ body .vis-coalitions {
   margin: 50px 40px 70px 40px; }
   body .vis-coalitions .election-selector {
     position: absolute;
-    right: 0;
-    top: -70px;
+    right: 10px;
+    top: -80px;
     color: #aaaaaa;
     font-size: 18px; }
     body .vis-coalitions .election-selector a .long {
