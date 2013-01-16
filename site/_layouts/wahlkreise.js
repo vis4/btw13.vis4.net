@@ -3,19 +3,9 @@
 
 $(function() {
 
-    var classes = {
-        'CDU': 'CDU',
-        'SPD': 'SPD',
-        'FDP': 'FDP',
-        'LPDS': 'LIN',
-        'GRÜNE': 'GRU',
-        'PIRATEN': 'PIR'
-    },
+    {{ content }}
 
-    humanNames = {
-        '01-03': 'Braunschweig<sup>1</sup>',
-        '24-28': 'Hannover<sup>2</sup>'
-    },
+    var
 
     reverse = 1,
     lastSort = '',
@@ -42,18 +32,14 @@ $(function() {
     };
 
     function render(all, sortBy) {
-        $('#content').html('');
+        $('.vis').html('');
 
-        var cont = $('<div />').addClass('wahlkreise').appendTo('#content');
+        var cont = $('<div />').addClass('wahlkreise').appendTo('.vis');
         var head = $('<div>').addClass('wahlkreis').addClass('header').appendTo(cont);
 
         $('<div class="name">{{ "Wahlkreis" | t: "Election district" }}</div>')
             .data('sort-by', 'n').appendTo(head);
-        var d = $('<div class="win">{{ "Direktmandate" | t: "Direct mandates" }}<br/></div>').appendTo(head);
-        $('<div>’98</div>').data('sort-by', 'v1-98').appendTo(d);
-        $('<div>’03</div>').data('sort-by', 'v1-03').appendTo(d);
-        $('<div>’08</div>').data('sort-by', 'v1-08').appendTo(d);
-        $('<div>’13</div>').data('sort-by', 'v1-13').appendTo(d);
+
 
         d = $('<div class="win2 win">{{ "Landtagswahl 2008" | t: "Election 2008" }}<br/></div>').appendTo(head);
         $('<div>CDU</div>').data('sort-by', 'v2-CDU').appendTo(d);
@@ -62,14 +48,20 @@ $(function() {
         $('<div>GRÜ</div>').data('sort-by', 'v2-GRU').appendTo(d);
         $('<div>LIN</div>').data('sort-by', 'v2-LIN').appendTo(d);
 
-        $('<div class="est">{{ "Einwohner" | t: "Population" }}</div>')
-            .data('sort-by', 'p').appendTo(head);
+        var d = $('<div class="win">{{ "Direktmandate" | t: "Direct mandates" }}<br/></div>').appendTo(head);
+        $('<div>’98</div>').data('sort-by', 'v1-98').appendTo(d);
+        $('<div>’03</div>').data('sort-by', 'v1-03').appendTo(d);
+        $('<div>’08</div>').data('sort-by', 'v1-08').appendTo(d);
+        $('<div>’13</div>').data('sort-by', 'v1-13').appendTo(d);
+
+
+        //$('<div class="est">{{ "Einwohner" | t: "Population" }}</div>').data('sort-by', 'p').appendTo(head);
         $('<div class="est">{{ "Eink.steuer" }}</div>')
             .data('sort-by', 't').appendTo(head);
         $('<div class="est">{{ "Beschäftigte" | t: "Employed" }}</div>')
             .data('sort-by', 'w').appendTo(head);
-        $('<div class="est">{{ "Ausländer" | t: "Foreigners" }}</div>')
-            .data('sort-by', 'f').appendTo(head);
+        /*$('<div class="est">{{ "Ausländer" | t: "Foreigners" }}</div>')
+            .data('sort-by', 'f').appendTo(head);*/
 
         $('*', head)
             .filter(function() { return $(this).data('sort-by'); })
@@ -82,11 +74,21 @@ $(function() {
             .filter(function() { return $(this).data('sort-by') == lastSort; })
             .addClass('sorted');
 
-        var wahlkreise = [];
+        var wahlkreise = [], minmax = { f: [0,0], t: [9999,0], e: [1,0] };
         $.each(all, function(wknr, wk) {
             wk.nr = wknr;
             if (humanNames[wknr]) wk.n = humanNames[wknr];
-            if (wknr != "00") wahlkreise.push(wk);
+            if (wknr != "00") {
+                wahlkreise.push(wk);
+                if (!isNaN(wk.f)) {
+                    minmax.f[0] = Math.min(minmax.f[0], wk.f);
+                    minmax.f[1] = Math.max(minmax.f[1], wk.f);
+                }
+                minmax.t[0] = Math.min(minmax.t[0], wk.t);
+                minmax.t[1] = Math.max(minmax.t[1], wk.t);
+                minmax.e[0] = Math.min(minmax.e[0], wk.e);
+                minmax.e[1] = Math.max(minmax.e[1], wk.e);
+            }
         });
         wahlkreise.sort(function(a,b) {
             return reverse * (sortBy(a) > sortBy(b) ? 1 : -1);
@@ -95,8 +97,20 @@ $(function() {
         $.each(wahlkreise, function(i, wk) {
             var wkdiv = $('<div>').addClass('wahlkreis').appendTo(cont);
             wkdiv.append('<div class="name">'+wk.n+' ('+wk.nr+')</div>');
-            var win = $('<div class="win" />').appendTo(wkdiv);
+            
 
+
+            var win = $('<div class="win2 win" />').appendTo(wkdiv);
+            var v = [];
+            $.each(['CDU','SPD','FDP','GRÜNE','LPDS'], function(i, k) {
+                v.push({ k: classes[k], v: 100 * wk.v2[k]['08'] / wk.v2.total['08'] });
+            });
+            v.sort(function(a,b) { return b.v - a.v; });
+            $.each(v, function(i, e) {
+                $('<div>'+e.v.toFixed(0)+'</div>').addClass(e.k).appendTo(win);
+            });
+
+            win = $('<div class="win" />').appendTo(wkdiv);
             $.each(['98','03','08'], function(i, yr) {
                 var v = [], diff;
                 $.each(wk.v1, function(key, vals) {
@@ -111,20 +125,16 @@ $(function() {
             });
             $('<div>?</div>').appendTo(win);
 
-            win = $('<div class="win2 win" />').appendTo(wkdiv);
-            var v = [];
-            $.each(['CDU','SPD','FDP','GRÜNE','LPDS'], function(i, k) {
-                v.push({ k: classes[k], v: 100 * wk.v2[k]['08'] / wk.v2.total['08'] });
-            });
-            v.sort(function(a,b) { return b.v - a.v; });
-            $.each(v, function(i, e) {
-                $('<div>'+e.v.toFixed(0)+'</div>').addClass(e.k).appendTo(win);
-            });
-
-            wkdiv.append('<div class="est">'+wk.p+'</div>');
-            wkdiv.append('<div class="est">'+wk.t+' €</div>');
-            wkdiv.append('<div class="est">'+(100*wk.e).toFixed(1)+' %</div>');
-            wkdiv.append('<div class="est">'+(100*wk.f).toFixed(1)+' %</div>');
+            //wkdiv.append('<div class="est">'+wk.p+'<div class="bar" style="width:50%"></div></div>');
+            $('<div class="est">'+wk.t+' €</div>')
+                .append('<div class="bar" style="width:'+(100 * (wk.t - minmax.t[0]) / (minmax.t[1] - minmax.t[0]))+'%"></div>')
+                .appendTo(wkdiv);
+            $('<div class="est">'+(100*wk.e).toFixed(1)+' %</div>')
+                .append('<div class="bar" style="width:'+(100 * (wk.e - minmax.e[0]) / (minmax.e[1] - minmax.e[0]))+'%"></div>')
+                .appendTo(wkdiv);
+           /*$('<div class="est">'+(100*wk.f).toFixed(1)+' %</div>')
+                .append('<div class="bar" style="width:'+(100 * (wk.f - minmax.f[0]) / (minmax.f[1] - minmax.f[0]))+'%"></div>')
+                .appendTo(wkdiv);*/
         });
 
     }

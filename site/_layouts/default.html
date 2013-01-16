@@ -2,25 +2,47 @@
 <html lang="{{ page.lang }}">
 <head>
 <title>{{ page.title }}</title>
-  <link rel="stylesheet" media="screen" href="/all.css"/>
+
+{% css_asset_tag global %}
+- /_assets/css/fonts.css
+- /_assets/css/reset.css.sass
+- /_assets/css/styles.css.sass
+- /_assets/css/coalitions.css.sass
+{% endcss_asset_tag %}
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script type="text/javascript">!window.Raphael.version && document.write(unescape('%3Cscript src="/assets/js/raphael-min.js"%3E%3C/script%3E'))</script>
+
   <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 </head>
 <body>
 <div id="container">
   <header class="group">
+    <div class="header-inner">
+        <h1 class="title">{{ "Landtagswahl<br/>in Niedersachsen" | t: 'Lower Saxony<br/>State Election' }}</h1>
+    </div>
     <div class="menu">
         {% for k in page.menu %}
         {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
+        {% if u == page.url %}{% assign page_id = k[0] %}{% endif %}
         <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ page.lang }}/{{ k[0] }}/">{{ k[1] }}</a></div>
         {% endfor %}
     </div>
-    <div class="header-inner">
-        <h1 class="title">{{ "Landtagswahl in Niedersachsen" | t: 'Lower Saxony State Election' }}</h1>
-        <h2 class="subtitle">{{ page.title }}</h2>
-    </div>
+    <h2 class="subtitle">{{ page.title }}</h2>
+
   </header>
-  <div id="content">
-    {{ content }}
+  <div id="content" class="{{ page_id }}">
+    {% capture c %}{{ content | strip_newlines }}{% endcapture %}
+    {% if c == '' %}
+      {% for k in page.menu %}
+      {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
+      <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ page.lang }}/{{ k[0] }}/">{{ k[1] }}</a></div>
+      {% endfor %}
+    {% else %}
+      {{ content }}
+    {% endif %}
   </div>
   <div id="footer">
     <div>
@@ -32,8 +54,7 @@
       </div>
   </div>
 </div>
-  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-  <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
+  
   {% if page.script %}<script type="text/javascript" src="{{ page.script }}"></script>{% endif %}
 </body>
 </html>
