@@ -1,3 +1,7 @@
+---
+libs:
+  jquery: true
+---
 <!DOCTYPE html>
 <html lang="{{ page.lang }}">
 <head>
@@ -5,16 +9,29 @@
 
 {% css_asset_tag global %}
 - /_assets/css/fonts.css
+- /_assets/css/bootstrap.min.css
 - /_assets/css/reset.css.sass
 - /_assets/css/styles.css.sass
 - /_assets/css/coalitions.css.sass
+- /_assets/css/maps.css.sass
+- /_assets/css/jquery.qtip.css
 {% endcss_asset_tag %}
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  {% if page.libs.jquery %}
   <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
+  {% endif %}
+  {% if page.libs.raphael %}
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script type="text/javascript">!window.Raphael.version && document.write(unescape('%3Cscript src="/assets/js/raphael-min.js"%3E%3C/script%3E'))</script>
-
+  {% endif %}
+  {% if page.libs.kartograph %}
+  <script type="text/javascript" src="/assets/js/kartograph.min.js"></script>
+  <script type="text/javascript" src="/assets/js/jquery.qtip.min.js"></script>
+  {% endif %}
+  {% if page.libs.chroma %}
+  <script type="text/javascript" src="/assets/js/chroma.min.js"></script>
+  {% endif %}
   <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 </head>
 <body>

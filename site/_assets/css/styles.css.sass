@@ -10,6 +10,9 @@ body
     font-size: 13px
     line-height: 19px
 
+    header
+        margin-top: 20px
+
     #container
         width: 1000px
         margin: 0 auto
@@ -62,6 +65,30 @@ body
             line-height: 30px
             letter-spacing: -1px
             margin: 0 0 30px
+
+        .election-selector
+            position: absolute
+            right: 50px
+            top: 105px
+            color: #aaa
+            font-size: 18px
+
+            a .long
+                display: none
+
+            a:before
+                content: '‘'
+
+            a.active
+                font-weight: bold
+                font-size: 24px
+                color: #000
+
+                .long
+                    display: inline
+
+            a.active:before
+                content: ''
 
 
         #content

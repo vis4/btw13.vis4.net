@@ -305,21 +305,12 @@ $ () ->
 
         justParties = true
 
-        elsel = $('<div class="election-selector" />').appendTo(_lblcont);
-        $.each elections, (i, election) ->
-            a = $ '<a><span class="long">'+(if election.yr < 80 then '20' else '19')+'</span>'+election.yr+'</a>'
-            a.css
-                'margin-right': 10
-                cursor: 'pointer'
-            a.data 'index', i
-            a.click (evt) ->
-                $('a', elsel).removeClass 'active'
-                $(evt.target).addClass 'active'
-                active = $(evt.target).data('index')
-                render active, justParties
-            if i == active
-                a.addClass 'active'
-            elsel.append a
+        elsel = Common.ElectionSelector elections, active
+        , (active) ->  # click callback
+            render active, justParties
+            true
+        , (e) ->  # function that extracts year
+            e.yr
 
         $('<a>13</a>').appendTo(elsel).css
             color: '#ccc'

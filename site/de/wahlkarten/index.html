@@ -2,11 +2,35 @@
 layout: default-de
 title: Wahlkarten zur Landtagswahl
 lang: de
+libs:
+    jquery: true
+    raphael: true
+    kartograph: true
+    chroma: true
 ---
 
-TODO
+<div id="map-controls">
+    <h1 class="key">CDU</h1>
+    <h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>
+    <p>Umgerechnet auf die Wahlkreise von 2013</p>
 
-{% javascript_asset_tag coalitions %}
+    <label>Wahlkreisdarstellung:</label>
+    <div class="btn-group map-type">
+      <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
+      <button data-type="dorling" class="btn">Nach Einwohnerzahl</button>
+    </div>
+
+    <label>Farblegende:</label>
+
+</div>
+<div id="map"></div>
+<div id="map-thumbs">
+
+</div>
+
+
+{% javascript_asset_tag maps %}
 - _assets/js/common.js.coffee
+- _assets/js/maps.js.coffee
 {% endjavascript_asset_tag %}
 

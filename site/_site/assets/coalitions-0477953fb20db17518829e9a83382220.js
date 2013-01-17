@@ -53,6 +53,36 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     '24-28': 'Hannover<sup>2</sup>'
   };
 
+  Common.ElectionSelector = function(data, active, callback, yr) {
+    var elsel;
+    elsel = $('<div class="election-selector" />').appendTo('#container');
+    $.each(data, function(i, item) {
+      var a, y;
+      y = yr != null ? yr(item) : item;
+      a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + '</a>');
+      a.css({
+        'margin-right': 10,
+        cursor: 'pointer'
+      });
+      a.data('index', i);
+      a.click(function(evt) {
+        var r;
+        active = $(evt.target).data('index');
+        r = callback(active, evt);
+        if (r) {
+          $('a', elsel).removeClass('active');
+          $(evt.target).addClass('active');
+        }
+        return null;
+      });
+      if (i === active) {
+        a.addClass('active');
+      }
+      return elsel.append(a);
+    });
+    return elsel;
+  };
+
 }).call(this);
 
 (function() {
@@ -408,25 +438,11 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       elections = json;
       active = elections.length - 1;
       justParties = true;
-      elsel = $('<div class="election-selector" />').appendTo(_lblcont);
-      $.each(elections, function(i, election) {
-        var a;
-        a = $('<a><span class="long">' + (election.yr < 80 ? '20' : '19') + '</span>' + election.yr + '</a>');
-        a.css({
-          'margin-right': 10,
-          cursor: 'pointer'
-        });
-        a.data('index', i);
-        a.click(function(evt) {
-          $('a', elsel).removeClass('active');
-          $(evt.target).addClass('active');
-          active = $(evt.target).data('index');
-          return render(active, justParties);
-        });
-        if (i === active) {
-          a.addClass('active');
-        }
-        return elsel.append(a);
+      elsel = Common.ElectionSelector(elections, active, function(active) {
+        render(active, justParties);
+        return true;
+      }, function(e) {
+        return e.yr;
       });
       $('<a>13</a>').appendTo(elsel).css({
         color: '#ccc'
