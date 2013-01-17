@@ -757,6 +757,8 @@ body .vis-coalitions {
     .wahlkarten #map-controls h1, .maps #map-controls h1 {
       font-size: 58px;
       font-weight: 300;
+      position: relative;
+      left: -2px;
       letter-spacing: -1;
       line-height: 64px; }
     .wahlkarten #map-controls h2, .maps #map-controls h2 {
@@ -1358,3 +1360,34 @@ body .vis-coalitions {
         -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
     }
 
+
+.barchart {
+  margin-top: 9px; }
+  .barchart .col {
+    width: 40px;
+    float: left; }
+    .barchart .col .lbl {
+      font-size: 9px;
+      text-align: center; }
+    .barchart .col .bar {
+      border-left: 5px solid white;
+      border-right: 5px solid white;
+      position: relative; }
+      .barchart .col .bar .lbl {
+        color: white; }
+      .barchart .col .bar .lbl.top {
+        position: absolute;
+        top: -17px;
+        left: 0;
+        right: 0;
+        color: black; }
+    .barchart .col .bar.CDU {
+      background: #222222; }
+    .barchart .col .bar.GRUENE {
+      background: #1fa12d; }
+    .barchart .col .bar.SPD {
+      background: #e2001a; }
+    .barchart .col .bar.FDP {
+      background: #fbee31; }
+    .barchart .col .bar.LINKE {
+      background: #8b1c62; }

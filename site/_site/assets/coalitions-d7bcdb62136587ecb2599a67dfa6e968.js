@@ -83,6 +83,42 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     return elsel;
   };
 
+  Common.CityLabels = [
+    {
+      name: 'Bremen',
+      lon: 8.84,
+      lat: 53.11
+    }, {
+      name: 'Hamburg',
+      lon: 10.2,
+      lat: 53.57
+    }, {
+      name: 'H',
+      lon: 9.76,
+      lat: 52.38
+    }, {
+      name: 'OS',
+      lon: 8.03,
+      lat: 52.28
+    }, {
+      name: 'OL',
+      lon: 8.2,
+      lat: 53.15
+    }, {
+      name: 'BS',
+      lon: 10.53,
+      lat: 52.26
+    }, {
+      name: 'GÖ',
+      lon: 9.94,
+      lat: 51.53
+    }, {
+      name: 'WHV',
+      lon: 8.10,
+      lat: 53.6
+    }
+  ];
+
 }).call(this);
 
 (function() {

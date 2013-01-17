@@ -12,7 +12,8 @@ def getjson(fn):
 foreigners = getjson('../data/foreigners.json')
 workers = getjson('../data/workers.json')
 population = getjson('../data/population.json')
-votes = [getjson('../data/votes-1.json'), getjson('../data/votes-2.json')]
+#votes = [getjson('../data/votes-1.json'), getjson('../data/votes-2.json')]
+votes = getjson('../data/votes-new.json')
 tax = getjson('../data/tax.json')
 
 out = {}
@@ -23,22 +24,8 @@ for wknr in population:
         p=population[wknr]['total'],
         e=round(float(workers[wknr]['workers']) / population[wknr]['working-age'], 3),
         t=round(tax[wknr]['tax'] * 1000 / workers[wknr]['workers']),
-        v1=dict(),
-        v2=dict()
+        v1=votes[wknr]['v1'],
+        v2=votes[wknr]['v2']
     )
-    try:
-        out[wknr]['f'] = round(float(foreigners[wknr]['foreigners']) / population[wknr]['total'], 3)
-    except:
-        pass
-    for i in range(len(votes)):
-        wkv = out[wknr]['v%d' % (i + 1)]
-        for yr in ('98', '03', '08'):
-            v = votes[i][wknr][yr]
-            for p in v:
-                if v[p] < v['total'] * 0.01:
-                    continue
-                if p not in wkv:
-                    wkv[p] = {}
-                wkv[p][yr] = v[p]
 
 open('../site/assets/data/all.json', 'w').write(json.dumps(out))
