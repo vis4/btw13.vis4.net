@@ -109,12 +109,14 @@
     lastKey = null;
     keys = ['CDU', 'SPD', 'FDP', 'GRÜNE', 'LINKE'];
     partyCols = {
-      CDU: 'Greys',
+      CDU: 'Blues',
       SPD: 'Reds',
       'GRÜNE': 'Greens',
       FDP: 'YlOrBr',
       LINKE: 'PuRd',
-      PIRATEN: 'OrRd'
+      PIRATEN: 'OrRd',
+      NPD: 'Grays',
+      REP: 'Grays'
     };
     defCol = 'YlGnBu';
     partyLimits = {
