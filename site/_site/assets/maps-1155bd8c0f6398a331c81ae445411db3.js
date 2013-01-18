@@ -94,10 +94,9 @@
 }).call(this);
 
 (function() {
-  var barChart, dorling;
 
   $(function() {
-    var keys, lastKey, map_cont, mode, partyCols, partyLimits, selected, thumb_cont, year, years, _cs, _key, _sg;
+    var defCol, defLimits, keys, lastKey, map_cont, mode, partyCols, partyLimits, selected, thumb_cont, year, years, _cs, _key, _sg;
     map_cont = $('#map');
     thumb_cont = $('#map-thumbs');
     years = ['98', '03', '08', '13'];
@@ -114,8 +113,10 @@
       SPD: 'Reds',
       'GRÜNE': 'Greens',
       FDP: 'YlOrBr',
-      LINKE: 'PuRd'
+      LINKE: 'PuRd',
+      PIRATEN: 'OrRd'
     };
+    defCol = 'YlGnBu';
     partyLimits = {
       CDU: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
       SPD: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
@@ -123,10 +124,11 @@
       'GRÜNE': [0, 0.025, 0.05, 0.08, 0.11, 0.15, 0.18, 0.21],
       'LINKE': [0, 0.005, 0.01, 0.03, 0.05, 0.07, 0.09, 0.11]
     };
+    defLimits = [0, 0.0025, 0.005, 0.01, 0.015, 0.03, 0.05, 0.1];
     return $.getJSON('/assets/data/all.json', function(data) {
       return $.get('/assets/svg/wk17-alt.svg', function(svg) {
         return $.get('/assets/svg/wk17-small-alt.svg', function(svg2) {
-          var elsel, getColorScale, getVote, initMaps, initUI, main, updateLegend, updateMaps, wkFill;
+          var barChart, elsel, getColorScale, getVote, initMaps, initUI, main, updateLegend, updateMaps, updateOtherPartySelect, wkFill;
           main = $K.map(map_cont);
           $.each(data, function(id, wk) {
             return wk.id = id;
@@ -139,7 +141,7 @@
             }
           };
           getColorScale = function() {
-            var b, base, key, values, _ref;
+            var b, base, key, values, _ref, _ref1, _ref2;
             key = _key;
             values = [0.01];
             $.each(data, function(id, wk) {
@@ -152,8 +154,8 @@
             base = chroma.hex((_ref = Common.partyColors[key]) != null ? _ref : '#00d');
             b = base.hcl();
             return new chroma.ColorScale({
-              colors: chroma.brewer[partyCols[key]],
-              limits: partyLimits[key]
+              colors: chroma.brewer[(_ref1 = partyCols[key]) != null ? _ref1 : defCol],
+              limits: (_ref2 = partyLimits[key]) != null ? _ref2 : defLimits
             });
           };
           wkFill = function(d) {
@@ -173,18 +175,16 @@
             }
           };
           updateLegend = function() {
-            var col, d, l, lgd, limits, _i, _len, _ref, _results;
-            limits = partyLimits[lastKey];
+            var col, d, l, lgd, limits, _i, _len, _ref, _ref1, _results;
+            limits = (_ref = partyLimits[lastKey]) != null ? _ref : defLimits;
             lgd = $('.col-legend').html('');
-            _ref = limits.slice(1, -1);
+            _ref1 = limits.slice(1, -1);
             _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              l = _ref[_i];
+            for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+              l = _ref1[_i];
               col = _cs.getColor(l + 0.001);
               l *= 100;
-              if (l !== 0.5 && l !== 2.5) {
-                l = Math.round(l);
-              }
+              l = l >= 3 || l === 1 || l === 2 ? Math.round(l) : l.toFixed(1);
               d = $('<div>&gt;' + l + '%</div>');
               d.data('color', col.hex());
               d.css({
@@ -195,13 +195,13 @@
               }
               lgd.append(d);
               _results.push(d.on('click', function(evt) {
-                var path, _j, _len1, _ref1, _results1;
+                var path, _j, _len1, _ref2, _results1;
                 d = $(evt.target);
                 col = d.data('color');
-                _ref1 = main.getLayer('wahlkreise').paths;
+                _ref2 = main.getLayer('wahlkreise').paths;
                 _results1 = [];
-                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-                  path = _ref1[_j];
+                for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+                  path = _ref2[_j];
                   if (path.svgPath.attrs.fill === col) {
                     path.svgPath.attr('fill', '#ffd');
                     _results1.push(path.svgPath.animate({
@@ -216,12 +216,61 @@
             }
             return _results;
           };
+          updateOtherPartySelect = function() {
+            var key, others, sel, _i, _len;
+            sel = $('#other-parties');
+            sel.html('');
+            others = [];
+            for (key in data['00'].v2) {
+              if (key !== 'votes' && key !== 'voters' && key !== 'turnout' && key !== 'others' && data['00'].v2[key][year] > 0) {
+                others.push(key);
+              }
+            }
+            others.sort(function(a, b) {
+              return data['00'].v2[b][year] - data['00'].v2[a][year];
+            });
+            for (_i = 0, _len = others.length; _i < _len; _i++) {
+              key = others[_i];
+              sel.append('<option ' + (key === lastKey ? 'selected="selected"' : void 0) + '>' + key + '</option>');
+            }
+          };
+          barChart = function(v2, yr) {
+            var bch, bh, key, max, tt, v, _i, _j, _len, _len1;
+            tt = '';
+            bch = 80;
+            max = 0;
+            keys = ['CDU', 'SPD', 'FDP', 'GRÜNE', 'LINKE'];
+            for (_i = 0, _len = keys.length; _i < _len; _i++) {
+              key = keys[_i];
+              max = Math.max(v2[key][yr], max);
+            }
+            keys.sort(function(a, b) {
+              return v2[b][yr] - v2[a][yr];
+            });
+            tt += '<div class="barchart" style="height:' + bch + 'px">';
+            for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
+              key = keys[_j];
+              v = (v2[key][yr] / v2.votes[yr] * 100).toFixed(1) + '%';
+              bh = (v2[key][yr] / max) * bch;
+              tt += '<div class="col" style="margin-top:' + (bch - bh) + 'px">';
+              tt += '<div class="bar ' + key.replace('Ü', 'UE') + '" style="height:' + bh + 'px">';
+              tt += '<div class="lbl' + (bh < 20 ? ' top' : '') + '">' + v + '</div></div>';
+              tt += '<div class="lbl">' + key + '</div>';
+              tt += '</div>';
+            }
+            tt += '</div>';
+            if ($.inArray(lastKey, keys) < 0) {
+              tt += '<div class="tt-other"><b>' + lastKey + ':</b> ' + (v2[lastKey][yr] / v2.votes[yr] * 100).toFixed(1) + '% (' + v2[lastKey][yr] + ')</div>';
+            }
+            return tt;
+          };
           updateMaps = function(key) {
             _key = lastKey = key;
             _cs = getColorScale();
             $('.key').html(key);
             $('span.yr').html((year < 80 ? '20' : '19') + year);
             updateLegend();
+            updateOtherPartySelect();
             if (_sg) {
               _sg.remove();
               _sg = null;
@@ -260,7 +309,7 @@
                   return '<b>' + d.n + '</b><br />' + barChart(data[d.id].v2, year);
                 }
               });
-              dorling(_sg);
+              Kartograph.dorlingLayout(_sg);
             }
             return $.each(keys, function(i, key) {
               var map;
@@ -365,7 +414,7 @@
             });
           };
           initUI = function() {
-            return $('.map-type .btn').click(function(evt) {
+            $('.map-type .btn').click(function(evt) {
               var btn;
               btn = $(evt.target);
               $('.map-type .btn').removeClass('btn-primary');
@@ -373,12 +422,14 @@
               mode = btn.data('type');
               return updateMaps(lastKey);
             });
+            return $('#other-parties').change(function() {
+              return updateMaps($('#other-parties').val());
+            });
           };
           initUI();
           initMaps();
           updateMaps('CDU');
           return elsel = Common.ElectionSelector(years, 2, function(active) {
-            console.log(active);
             if (active < 3) {
               year = years[active];
               updateMaps(lastKey);
@@ -390,89 +441,5 @@
       });
     });
   });
-
-  dorling = function(symbolgroup) {
-    var A, B, apply, d, ds, dx, dy, f, i, j, nodes, r, rd, rs, _i;
-    nodes = [];
-    $.each(symbolgroup.symbols, function(i, s) {
-      return nodes.push({
-        i: i,
-        x: s.path.attrs.cx,
-        y: s.path.attrs.cy,
-        r: s.path.attrs.r
-      });
-    });
-    nodes.sort(function(a, b) {
-      return b.r - a.r;
-    });
-    apply = function() {
-      var n, _i, _len;
-      for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-        n = nodes[_i];
-        symbolgroup.symbols[n.i].path.attr({
-          cx: n.x,
-          cy: n.y
-        });
-      }
-    };
-    for (r = _i = 1; _i <= 40; r = ++_i) {
-      for (i in nodes) {
-        for (j in nodes) {
-          if (j > i) {
-            A = nodes[i];
-            B = nodes[j];
-            if (A.x + A.r < B.x - B.r || A.x - A.r > B.x + B.r) {
-              continue;
-            }
-            if (A.y + A.r < B.y - B.r || A.y - A.r > B.y + B.r) {
-              continue;
-            }
-            dx = A.x - B.x;
-            dy = A.y - B.y;
-            ds = dx * dx + dy * dy;
-            rd = A.r + B.r;
-            rs = rd * rd;
-            if (ds < rs) {
-              d = Math.sqrt(ds);
-              f = 10 / d;
-              A.x += dx * f * (1 - (A.r / rd));
-              A.y += dy * f * (1 - (A.r / rd));
-              B.x -= dx * f * (1 - (B.r / rd));
-              B.y -= dy * f * (1 - (B.r / rd));
-            }
-          }
-        }
-      }
-    }
-    return apply();
-  };
-
-  barChart = function(v2, yr) {
-    var bch, bh, key, keys, max, tt, v, _i, _j, _len, _len1;
-    tt = '';
-    bch = 80;
-    max = 0;
-    keys = ['CDU', 'SPD', 'FDP', 'GRÜNE', 'LINKE'];
-    for (_i = 0, _len = keys.length; _i < _len; _i++) {
-      key = keys[_i];
-      max = Math.max(v2[key][yr], max);
-    }
-    keys.sort(function(a, b) {
-      return v2[b][yr] - v2[a][yr];
-    });
-    tt += '<div class="barchart" style="height:' + bch + 'px">';
-    for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
-      key = keys[_j];
-      v = (v2[key][yr] / v2.votes[yr] * 100).toFixed(1) + '%';
-      bh = (v2[key][yr] / max) * bch;
-      tt += '<div class="col" style="margin-top:' + (bch - bh) + 'px">';
-      tt += '<div class="bar ' + key.replace('Ü', 'UE') + '" style="height:' + bh + 'px">';
-      tt += '<div class="lbl' + (bh < 20 ? ' top' : '') + '">' + v + '</div></div>';
-      tt += '<div class="lbl">' + key + '</div>';
-      tt += '</div>';
-    }
-    tt += '</div>';
-    return tt;
-  };
 
 }).call(this);

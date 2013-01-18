@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<title>Wahlkarten zur Landtagswahl</title>
+<title>Regionale Mehrheiten einzelner Koalitionen</title>
 
 <link href='/assets/global-fdee1bf5be10313c924fb55822f91d24.css' rel='stylesheet' type='text/css' />
 
@@ -33,48 +33,35 @@
         
         
         
-        <div class="item"><a href="/de/regionalkoalitionen/">Regionalkoalitionen</a></div>
+        <div class="item active"><a href="/de/regionalkoalitionen/">Regionalkoalitionen</a></div>
         
         
         
-        <div class="item active"><a href="/de/wahlkarten/">Wahlkarten</a></div>
+        <div class="item"><a href="/de/wahlkarten/">Wahlkarten</a></div>
         
         
         
         <div class="item"><a href="/de/koalitionen/">Mgl. Koalitionen</a></div>
         
     </div>
-    <h2 class="subtitle">Wahlkarten zur Landtagswahl</h2>
+    <h2 class="subtitle">Regionale Mehrheiten einzelner Koalitionen</h2>
 
   </header>
-  <div id="content" class="wahlkarten">
+  <div id="content" class="regionalkoalitionen">
     
     
-      <div id="map-controls">
-    <h1 class="key">CDU</h1>
+      <div id="map"></div><div id="map-controls">
+    <h1 class="key">CDU-FDP-SPD</h1>
     <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
 
-    <p>Die nebenstehende Karte zeigt den <b>Zweitstimmenanteil der <span class="key"></span> bei der Landtagswahl <span class="yr"></span></b>, umgerechnet auf die Wahlkreise von 2013.</p>
+    <p>Die nebenstehende Karte zeigt, in welchen Wahlkreisen die Parteien <span class="parties"></span> <b>zusammen gerechnet</b> auf mindestens <b>50 Prozent der Stimmen</b> kommen.</p>
 
-    <p>Aus den Karten lassen sich Einsichten über die regionale Verteilung der Stimmen einer einzelnen Partei gewinnen. Der zeitliche Vergleich ist möglich, da jeweils dieselbe Farbskale verwendet wurde. </p>
+    <label>Andere Koalitionen zeigen</label>
 
-    <label>Andere Partei zeigen</label>
-    <select id="other-parties">
-    </select>
-
-    <div class="map-type-sel">
-        <label>Wahlkreisdarstellung:</label>
-        <p>Flächenmäßig große Wahlkreise sind auf Wahlkarten visuell überrepresentiert, da sie im Vergleich zu den Städten weniger Wahlberechtigte repräsentieren. Eine alternative Darstellung behebt diesen Fehler.</p>
-        <div class="btn-group map-type">
-          <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
-          <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
-        </div>
+    <div class="other-coalitions">
+        
     </div>
 
-    <div class="legend">
-        <label>Farblegende:</label>
-        <div class="col-legend"></div>
-    </div>
 
 </div>
 <div id="map"></div>
@@ -82,8 +69,7 @@
 
 </div>
 
-
-<script src='/assets/maps-1155bd8c0f6398a331c81ae445411db3.js' type='text/javascript'></script>
+<script src='/assets/maps-4f206ad6f0a15b00742c986720c9be42.js' type='text/javascript'></script>
 
 
 

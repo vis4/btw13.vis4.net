@@ -1,0 +1,36 @@
+---
+layout: default-de
+title: Regionale Mehrheiten einzelner Koalitionen
+lang: de
+libs:
+    jquery: true
+    raphael: true
+    kartograph: true
+    chroma: true
+---
+
+
+<div id="map"></div><div id="map-controls">
+    <h1 class="key">CDU-FDP-SPD</h1>
+    <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
+
+    <p>Die nebenstehende Karte zeigt, in welchen Wahlkreisen die Parteien <span class="parties"></span> <b>zusammen gerechnet</b> auf mindestens <b>50 Prozent der Stimmen</b> kommen.</p>
+
+    <label>Andere Koalitionen zeigen</label>
+
+    <div class="other-coalitions">
+        
+    </div>
+
+
+</div>
+<div id="map"></div>
+<div id="map-thumbs">
+
+</div>
+
+{% javascript_asset_tag maps %}
+- _assets/js/common.js.coffee
+- _assets/js/coalition-maps.js.coffee
+{% endjavascript_asset_tag %}
+

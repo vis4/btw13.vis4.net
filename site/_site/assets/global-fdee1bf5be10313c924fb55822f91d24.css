@@ -741,54 +741,55 @@ body .vis-coalitions {
   body .vis-coalitions .label.min-seats {
     font-weight: bold; }
 
-.wahlkarten, .maps {
+.wahlkarten, .maps, .regionalkoalitionen {
   position: relative;
   height: 850px; }
-  .wahlkarten #map, .maps #map {
+  .wahlkarten #map, .maps #map, .regionalkoalitionen #map {
     position: absolute;
     top: 220px;
     left: 300px;
     width: 700px; }
-  .wahlkarten #map-controls, .maps #map-controls {
+  .wahlkarten #map-controls, .maps #map-controls, .regionalkoalitionen #map-controls {
     position: absolute;
     top: 240px;
     height: 550px;
     left: 0px;
     width: 280px; }
-    .wahlkarten #map-controls h1, .maps #map-controls h1 {
+    .wahlkarten #map-controls h1, .maps #map-controls h1, .regionalkoalitionen #map-controls h1 {
       font-size: 58px;
       font-weight: 300;
       position: relative;
       left: -3px;
       letter-spacing: -1;
       line-height: 64px;
-      margin-bottom: 20px; }
-    .wahlkarten #map-controls h2, .maps #map-controls h2 {
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px white; }
+    .wahlkarten #map-controls h2, .maps #map-controls h2, .regionalkoalitionen #map-controls h2 {
       font-size: 20px;
       font-weight: normal;
       letter-spacing: -1;
       line-height: 24px;
       margin-bottom: 20px;
       color: #666666; }
-    .wahlkarten #map-controls label, .maps #map-controls label {
+    .wahlkarten #map-controls label, .maps #map-controls label, .regionalkoalitionen #map-controls label {
       font-weight: bold;
       font-size: 14px;
       display: block;
       margin-top: 20px;
       margin-bottom: 5px; }
-    .wahlkarten #map-controls p, .maps #map-controls p {
+    .wahlkarten #map-controls p, .maps #map-controls p, .regionalkoalitionen #map-controls p {
       margin-bottom: 10px; }
-    .wahlkarten #map-controls .map-type-sel, .maps #map-controls .map-type-sel {
+    .wahlkarten #map-controls .map-type-sel, .maps #map-controls .map-type-sel, .regionalkoalitionen #map-controls .map-type-sel {
       position: absolute;
       left: 0;
       bottom: 0; }
-    .wahlkarten #map-controls .legend, .maps #map-controls .legend {
+    .wahlkarten #map-controls .legend, .maps #map-controls .legend, .regionalkoalitionen #map-controls .legend {
       position: absolute;
-      left: 350px;
+      left: 360px;
       bottom: 0px;
       width: 320px;
       z-index: 10000; }
-      .wahlkarten #map-controls .legend .col-legend div, .maps #map-controls .legend .col-legend div {
+      .wahlkarten #map-controls .legend .col-legend div, .maps #map-controls .legend .col-legend div, .regionalkoalitionen #map-controls .legend .col-legend div {
         display: inline-block;
         line-height: 40px;
         font-size: 11px;
@@ -797,22 +798,22 @@ body .vis-coalitions {
         border-radius: 0;
         text-align: center;
         cursor: pointer; }
-      .wahlkarten #map-controls .legend .col-legend div:first-child, .maps #map-controls .legend .col-legend div:first-child {
+      .wahlkarten #map-controls .legend .col-legend div:first-child, .maps #map-controls .legend .col-legend div:first-child, .regionalkoalitionen #map-controls .legend .col-legend div:first-child {
         border-radius: 6px 0 0 6px; }
-      .wahlkarten #map-controls .legend .col-legend div:last-child, .maps #map-controls .legend .col-legend div:last-child {
+      .wahlkarten #map-controls .legend .col-legend div:last-child, .maps #map-controls .legend .col-legend div:last-child, .regionalkoalitionen #map-controls .legend .col-legend div:last-child {
         border-radius: 0 6px 6px 0; }
-  .wahlkarten #map-thumbs, .maps #map-thumbs {
+  .wahlkarten #map-thumbs, .maps #map-thumbs, .regionalkoalitionen #map-thumbs {
     position: absolute;
     left: 0px;
     width: 1000px;
     height: 200px;
     top: 30px; }
-    .wahlkarten #map-thumbs .thumb, .maps #map-thumbs .thumb {
+    .wahlkarten #map-thumbs .thumb, .maps #map-thumbs .thumb, .regionalkoalitionen #map-thumbs .thumb {
       display: inline-block;
       width: 200px;
       height: 200px;
       position: relative; }
-      .wahlkarten #map-thumbs .thumb label, .maps #map-thumbs .thumb label {
+      .wahlkarten #map-thumbs .thumb label, .maps #map-thumbs .thumb label, .regionalkoalitionen #map-thumbs .thumb label {
         font-weight: bold;
         font-size: 14px;
         position: absolute;
@@ -820,11 +821,47 @@ body .vis-coalitions {
         width: 50px;
         text-align: center;
         bottom: 50px; }
-    .wahlkarten #map-thumbs .bottom, .maps #map-thumbs .bottom {
+    .wahlkarten #map-thumbs .bottom, .maps #map-thumbs .bottom, .regionalkoalitionen #map-thumbs .bottom {
       position: absolute;
       bottom: 0;
       left: 100px;
       width: 200px; }
+
+.regionalkoalitionen #map-controls {
+  z-index: 1000; }
+  .regionalkoalitionen #map-controls h1 {
+    font-size: 40px; }
+  .regionalkoalitionen #map-controls .coal {
+    position: relative;
+    height: 28px;
+    cursor: pointer; }
+    .regionalkoalitionen #map-controls .coal .prev {
+      display: block;
+      position: absolute;
+      left: 0px;
+      top: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 3px; }
+    .regionalkoalitionen #map-controls .coal span {
+      display: block;
+      position: absolute;
+      left: 30px;
+      top: 0;
+      line-height: 28px; }
+  .regionalkoalitionen #map-controls .coal.active span {
+    font-weight: bold; }
+.regionalkoalitionen #map-thumbs .thumb label {
+  text-align: left;
+  left: 20px;
+  bottom: 40px; }
+
+.tt-other {
+  font-size: 12px;
+  padding: 8px 2px 3px; }
+
+.tt-other + .tt-other {
+  padding-top: 0px; }
 
 /*! qTip2 - Pretty powerful tooltips - v2.0.0 - 2012-08-14
 * http://craigsworks.com/projects/qtip2/
@@ -1395,13 +1432,15 @@ body .vis-coalitions {
     float: left; }
     .barchart .col .lbl {
       font-size: 9px;
-      text-align: center; }
+      text-align: center;
+      font-weight: bold; }
     .barchart .col .bar {
       border-left: 5px solid white;
       border-right: 5px solid white;
       position: relative; }
       .barchart .col .bar .lbl {
-        color: white; }
+        color: white;
+        font-weight: normal; }
       .barchart .col .bar .lbl.top {
         position: absolute;
         top: -17px;
