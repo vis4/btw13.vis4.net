@@ -3,7 +3,7 @@
 <head>
 <title>Wahlkarten zur Landtagswahl</title>
 
-<link href='/assets/global-1c91bbe5dbe033f6a0cd0387ddfabc31.css' rel='stylesheet' type='text/css' />
+<link href='/assets/global-e4df533c3b19f39372ff656b19a79409.css' rel='stylesheet' type='text/css' />
 
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
@@ -60,16 +60,27 @@
     
       <div id="map-controls">
     <h1 class="key">CDU</h1>
-    <h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>
-    <p>Umgerechnet auf die Wahlkreise von 2013</p>
+    <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
 
-    <label>Wahlkreisdarstellung:</label>
-    <div class="btn-group map-type">
-      <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
-      <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
+    <p>Die nebenstehende Karte zeigt den <b>Zweitstimmenanteil der <span class="key"></span> bei der Landtagswahl <span class="yr"></span></b>, umgerechnet auf die Wahlkreise von 2013.</p>
+
+    <p>Aus den Karten lassen sich Einsichten über die regionale Verteilung der Stimmen einer einzelnen Partei gewinnen. Der zeitliche Vergleich ist möglich, da jeweils dieselbe Farbskale verwendet wurde. </p>
+
+    <p>Zum absoluten Vergleich der Stimmverteilung zwischen den Parteien sind sie jedoch nicht geeignet.</p>
+
+    <div class="map-type-sel">
+        <label>Wahlkreisdarstellung:</label>
+        <p>Flächenmäßig große Wahlkreise sind auf Wahlkarten visuell überrepresentiert, da sie im Vergleich zu den Städten weniger Wahlberechtigte repräsentieren. Eine alternative Darstellung behebt diesen Fehler.</p>
+        <div class="btn-group map-type">
+          <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
+          <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
+        </div>
     </div>
 
-    <label>Farblegende:</label>
+    <div class="legend">
+        <label>Farblegende:</label>
+        <div class="col-legend"></div>
+    </div>
 
 </div>
 <div id="map"></div>
@@ -78,7 +89,7 @@
 </div>
 
 
-<script src='/assets/maps-b373de17cece9d0c42e645d3f8a0d8d5.js' type='text/javascript'></script>
+<script src='/assets/maps-867c9efdb1adf0e01fc2208f37374113.js' type='text/javascript'></script>
 
 
 

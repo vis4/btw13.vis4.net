@@ -97,7 +97,7 @@
   var barChart, dorling;
 
   $(function() {
-    var keys, lastKey, map_cont, mode, partyCols, selected, thumb_cont, year, years, _cs, _key, _sg;
+    var keys, lastKey, map_cont, mode, partyCols, partyLimits, selected, thumb_cont, year, years, _cs, _key, _sg;
     map_cont = $('#map');
     thumb_cont = $('#map-thumbs');
     years = ['98', '03', '08', '13'];
@@ -116,10 +116,17 @@
       FDP: 'YlOrBr',
       LINKE: 'PuRd'
     };
+    partyLimits = {
+      CDU: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
+      SPD: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
+      FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16],
+      'GRÜNE': [0, 0.025, 0.05, 0.08, 0.11, 0.15, 0.18, 0.21],
+      'LINKE': [0, 0.005, 0.01, 0.03, 0.05, 0.07, 0.09, 0.11]
+    };
     return $.getJSON('/assets/data/all.json', function(data) {
       return $.get('/assets/svg/wk17-alt.svg', function(svg) {
         return $.get('/assets/svg/wk17-small-alt.svg', function(svg2) {
-          var elsel, getColorScale, getVote, initMaps, initUI, main, updateMaps, wkFill;
+          var elsel, getColorScale, getVote, initMaps, initUI, main, updateLegend, updateMaps, wkFill;
           main = $K.map(map_cont);
           $.each(data, function(id, wk) {
             return wk.id = id;
@@ -146,7 +153,7 @@
             b = base.hcl();
             return new chroma.ColorScale({
               colors: chroma.brewer[partyCols[key]],
-              limits: chroma.limits(values, 'e', 10)
+              limits: partyLimits[key]
             });
           };
           wkFill = function(d) {
@@ -154,8 +161,10 @@
             wk = data[d.id];
             if (wk != null) {
               val = getVote(wk, _key);
-              if (val != null) {
-                return _cs.getColor(val);
+              if (val === 0) {
+                return '#fff';
+              } else if (val != null) {
+                return _cs.getColor(val).hex();
               } else {
                 return '#ccc';
               }
@@ -163,11 +172,56 @@
               return '#f0f';
             }
           };
+          updateLegend = function() {
+            var col, d, l, lgd, limits, _i, _len, _ref, _results;
+            limits = partyLimits[lastKey];
+            lgd = $('.col-legend').html('');
+            _ref = limits.slice(1, -1);
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              l = _ref[_i];
+              col = _cs.getColor(l + 0.001);
+              l *= 100;
+              if (l !== 0.5 && l !== 2.5) {
+                l = Math.round(l);
+              }
+              d = $('<div>&gt;' + l + '%</div>');
+              d.data('color', col.hex());
+              d.css({
+                background: col
+              });
+              if (col.hcl()[2] < 0.5) {
+                d.css('color', '#fff');
+              }
+              lgd.append(d);
+              _results.push(d.on('click', function(evt) {
+                var path, _j, _len1, _ref1, _results1;
+                d = $(evt.target);
+                col = d.data('color');
+                _ref1 = main.getLayer('wahlkreise').paths;
+                _results1 = [];
+                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                  path = _ref1[_j];
+                  if (path.svgPath.attrs.fill === col) {
+                    path.svgPath.attr('fill', '#ffd');
+                    _results1.push(path.svgPath.animate({
+                      fill: col
+                    }, 700));
+                  } else {
+                    _results1.push(void 0);
+                  }
+                }
+                return _results1;
+              }));
+            }
+            return _results;
+          };
           updateMaps = function(key) {
             _key = lastKey = key;
             _cs = getColorScale();
-            $('h1.key').html(key);
+            $('.key').html(key);
             $('span.yr').html((year < 80 ? '20' : '19') + year);
+            updateLegend();
             if (_sg) {
               _sg.remove();
               _sg = null;
@@ -233,7 +287,8 @@
             main.addLayer('wahlkreise', {
               key: 'id',
               styles: {
-                stroke: '#fff'
+                stroke: '#fff',
+                'stroke-linejoin': 'round'
               }
             });
             labels = function(style) {

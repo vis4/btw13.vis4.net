@@ -11,16 +11,27 @@ libs:
 
 <div id="map-controls">
     <h1 class="key">CDU</h1>
-    <h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>
-    <p>Umgerechnet auf die Wahlkreise von 2013</p>
+    <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
 
-    <label>Wahlkreisdarstellung:</label>
-    <div class="btn-group map-type">
-      <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
-      <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
+    <p>Die nebenstehende Karte zeigt den <b>Zweitstimmenanteil der <span class="key"></span> bei der Landtagswahl <span class="yr"></span></b>, umgerechnet auf die Wahlkreise von 2013.</p>
+
+    <p>Aus den Karten lassen sich Einsichten über die regionale Verteilung der Stimmen einer einzelnen Partei gewinnen. Der zeitliche Vergleich ist möglich, da jeweils dieselbe Farbskale verwendet wurde. </p>
+
+    <p>Zum absoluten Vergleich der Stimmverteilung zwischen den Parteien sind sie jedoch nicht geeignet.</p>
+
+    <div class="map-type-sel">
+        <label>Wahlkreisdarstellung:</label>
+        <p>Flächenmäßig große Wahlkreise sind auf Wahlkarten visuell überrepresentiert, da sie im Vergleich zu den Städten weniger Wahlberechtigte repräsentieren. Eine alternative Darstellung behebt diesen Fehler.</p>
+        <div class="btn-group map-type">
+          <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
+          <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
+        </div>
     </div>
 
-    <label>Farblegende:</label>
+    <div class="legend">
+        <label>Farblegende:</label>
+        <div class="col-legend"></div>
+    </div>
 
 </div>
 <div id="map"></div>

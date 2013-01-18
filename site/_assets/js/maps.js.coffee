@@ -22,6 +22,13 @@ $ () ->
         FDP: 'YlOrBr'
         LINKE: 'PuRd'
 
+    partyLimits =
+        CDU: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+        SPD: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+        FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16]
+        'GRÜNE': [0, 0.025, 0.05, 0.08, 0.11, 0.15, 0.18, 0.21]
+        'LINKE': [0, 0.005, 0.01, 0.03, 0.05, 0.07, 0.09, 0.11]
+
     $.getJSON '/assets/data/all.json', (data) ->
         $.get '/assets/svg/wk17-alt.svg', (svg) ->
             $.get '/assets/svg/wk17-small-alt.svg', (svg2) ->
@@ -47,24 +54,51 @@ $ () ->
                     b = base.hcl()
                     new chroma.ColorScale
                         colors: chroma.brewer[partyCols[key]]
-                        limits: chroma.limits(values, 'e', 10)
+                        limits: partyLimits[key]  #chroma.limits(values, 'e', 10)
 
                 wkFill = (d) ->
                     wk = data[d.id] # data[if d.id < 10 then '0'+d.id else d.id]
                     if wk?
                         val = getVote wk, _key
-                        if val?
-                            _cs.getColor val
+                        if val == 0
+                            '#fff'
+                        else if val?
+                            _cs.getColor(val).hex()
                         else
                             '#ccc'
                     else
                         '#f0f'
 
+                updateLegend = () ->
+                    limits = partyLimits[lastKey]
+                    lgd = $('.col-legend').html ''
+                    for l in limits.slice(1, -1)
+                        col = _cs.getColor l+0.001
+                        l *= 100
+                        l = Math.round(l) if l != 0.5 and l != 2.5
+                        d = $('<div>&gt;'+l+'%</div>')
+                        d.data 'color', col.hex()
+                        d.css
+                            background: col
+                        if col.hcl()[2] < 0.5
+                            d.css 'color', '#fff'
+                        lgd.append d
+                        d.on 'click', (evt) ->
+                            d = $ evt.target
+                            col = d.data 'color'
+                            for path in main.getLayer('wahlkreise').paths
+                                if path.svgPath.attrs.fill == col
+                                    path.svgPath.attr 'fill', '#ffd'
+                                    path.svgPath.animate
+                                        fill: col
+                                    , 700
+
                 updateMaps = (key) ->
                     _key = lastKey = key
                     _cs = getColorScale()
-                    $('h1.key').html key
+                    $('.key').html key
                     $('span.yr').html (if year < 80 then '20' else '19') + year
+                    updateLegend()
                     if _sg
                         _sg.remove()
                         _sg = null
@@ -123,6 +157,7 @@ $ () ->
                         key: 'id'
                         styles:
                             stroke: '#fff'
+                            'stroke-linejoin': 'round'
                         # tooltips: (d) ->
                         #     d.name + ' ' + d.id
 
