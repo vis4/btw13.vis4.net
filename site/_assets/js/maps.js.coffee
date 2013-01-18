@@ -230,7 +230,6 @@ $ () ->
                         else
                             'fill:#555;font-size:11px;'
 
-
                     main.addLayer 'wahlkreise'
                         name: 'fg'
                         styles:
