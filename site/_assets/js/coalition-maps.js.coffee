@@ -93,6 +93,11 @@ $ () ->
                                 'stroke-width': 3
                         mclick = () ->
                             updateMaps this.coalition
+                            setTimeout () ->
+                                $.smoothScroll
+                                    scrollTarget: 'h1.key'
+                                    offset: -20
+                            ,200
                         map.addLayer 'wahlkreise'
                             click: mclick.bind
                                 coalition: coalition

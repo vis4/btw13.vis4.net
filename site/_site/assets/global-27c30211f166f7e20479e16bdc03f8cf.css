@@ -516,19 +516,23 @@ body {
         position: relative;
         top: -5px;
         font-size: 30px;
+        letter-spacing: -1px;
+        color: #333333;
         font-weight: 300;
         line-height: 36px; }
     body #container .subtitle {
       font-size: 25px;
-      font-weight: normal;
+      font-weight: 300;
       line-height: 30px;
       letter-spacing: -1px;
-      margin: 0 0 30px; }
+      margin: 17px 0 30px; }
     body #container .election-selector {
       position: absolute;
-      right: 50px;
-      top: 105px;
+      right: 0px;
+      padding: 20px;
+      top: 85px;
       color: #aaaaaa;
+      background: white;
       font-size: 18px; }
       body #container .election-selector a .long {
         display: none; }
@@ -662,7 +666,12 @@ body {
     body #container #footer {
       margin-top: 20px;
       padding-top: 10px;
-      border-top: 1px solid #dddddd; }
+      border-top: 1px solid #dddddd;
+      position: relative; }
+      body #container #footer .right {
+        position: absolute;
+        right: 0;
+        top: 10px; }
 
 sup {
   font-size: 70%;
@@ -807,7 +816,7 @@ body .vis-coalitions {
     left: 0px;
     width: 1000px;
     height: 200px;
-    top: 30px; }
+    top: 0px; }
     .wahlkarten #map-thumbs .thumb, .maps #map-thumbs .thumb, .regionalkoalitionen #map-thumbs .thumb {
       display: inline-block;
       width: 200px;

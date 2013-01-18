@@ -396,7 +396,13 @@
                 }
               });
               mclick = function() {
-                return updateMaps(this.key);
+                updateMaps(this.key);
+                return setTimeout(function() {
+                  return $.smoothScroll({
+                    scrollTarget: 'h1.key',
+                    offset: -20
+                  });
+                }, 200);
               };
               map.addLayer('wahlkreise', {
                 click: mclick.bind({
