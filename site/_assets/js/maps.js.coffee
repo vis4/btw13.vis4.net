@@ -24,6 +24,7 @@ $ () ->
         PIRATEN: 'OrRd'
         NPD: 'Grays'
         REP: 'Grays'
+        Schill: 'Grays'
 
     defCol = 'YlGnBu'
 

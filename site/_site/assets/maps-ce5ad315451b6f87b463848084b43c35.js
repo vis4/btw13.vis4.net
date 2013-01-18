@@ -116,7 +116,8 @@
       LINKE: 'PuRd',
       PIRATEN: 'OrRd',
       NPD: 'Grays',
-      REP: 'Grays'
+      REP: 'Grays',
+      Schill: 'Grays'
     };
     defCol = 'YlGnBu';
     partyLimits = {
