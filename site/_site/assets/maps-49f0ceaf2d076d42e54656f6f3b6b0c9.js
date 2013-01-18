@@ -162,7 +162,7 @@
             };
             labels(function(d) {
               if (d.name.length <= 3) {
-                return 'opacity:0.6;stroke:#000;fill:#000;stroke-width:3px;stroke-linejoin:round;font-size:11px;font-weight:bold';
+                return 'opacity:0.7;stroke:#000;fill:#000;stroke-width:5px;stroke-linejoin:round;font-size:11px;font-weight:bold';
               } else {
                 return 'opacity:0.6;stroke:#fff;fill:#fff;stroke-width:3px;stroke-linejoin:round;font-size:11px;';
               }
