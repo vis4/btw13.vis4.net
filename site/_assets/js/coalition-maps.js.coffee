@@ -50,6 +50,33 @@ $ () ->
                             stroke: '#fff'
                             fill: '#ccc'
 
+                    labels = (style) ->
+                        main.addSymbols
+                            type: $K.Label
+                            data: Common.CityLabels
+                            location: (d) ->
+                                [d.lon, d.lat]
+                            text: (d) ->
+                                d.name
+                            style: style
+
+                    labels (d) ->
+                        if d.name.length <= 3
+                            'opacity:0.6;stroke:#000;fill:#000;stroke-width:3px;stroke-linejoin:round;font-size:11px;font-weight:bold'
+                        else
+                            'opacity:0.6;stroke:#fff;fill:#fff;stroke-width:3px;stroke-linejoin:round;font-size:11px;'
+                    labels (d) ->
+                        if d.name.length <= 3
+                            'fill:#fff;font-size:11px;font-weight:bold'
+                        else
+                            'fill:#555;font-size:11px;'
+
+                    main.addLayer 'wahlkreise'
+                        name: 'fg'
+                        styles:
+                            fill: '#fff'
+                            opacity: 0
+
                     # small map thumbs
                     $.each coalitions.slice(0,5), (i, coalition) ->
                         t = $('<div class="thumb" />').appendTo thumb_cont
@@ -107,7 +134,7 @@ $ () ->
                             sum += data[d.id].v2[key][year]
                         sum / data[d.id].v2.votes[year] >= 0.5
                     , '#ccc'
-                    main.getLayer('wahlkreise').tooltips (d) ->
+                    main.getLayer('fg').tooltips (d) ->
                         keys = coalition.parties
                         sum = 0
                         tt = '<b>'+d.name+'</b><br />'

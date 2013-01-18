@@ -138,13 +138,47 @@
         return $.get('/assets/svg/wk17-small-alt.svg', function(svg2) {
           var elsel, initMaps, updateMaps;
           initMaps = function() {
-            var coalition, d, dclick, _i, _len;
+            var coalition, d, dclick, labels, _i, _len;
             main = $K.map('#map');
             main.setMap(svg);
             main.addLayer('wahlkreise', {
               styles: {
                 stroke: '#fff',
                 fill: '#ccc'
+              }
+            });
+            labels = function(style) {
+              return main.addSymbols({
+                type: $K.Label,
+                data: Common.CityLabels,
+                location: function(d) {
+                  return [d.lon, d.lat];
+                },
+                text: function(d) {
+                  return d.name;
+                },
+                style: style
+              });
+            };
+            labels(function(d) {
+              if (d.name.length <= 3) {
+                return 'opacity:0.6;stroke:#000;fill:#000;stroke-width:3px;stroke-linejoin:round;font-size:11px;font-weight:bold';
+              } else {
+                return 'opacity:0.6;stroke:#fff;fill:#fff;stroke-width:3px;stroke-linejoin:round;font-size:11px;';
+              }
+            });
+            labels(function(d) {
+              if (d.name.length <= 3) {
+                return 'fill:#fff;font-size:11px;font-weight:bold';
+              } else {
+                return 'fill:#555;font-size:11px;';
+              }
+            });
+            main.addLayer('wahlkreise', {
+              name: 'fg',
+              styles: {
+                fill: '#fff',
+                opacity: 0
               }
             });
             $.each(coalitions.slice(0, 5), function(i, coalition) {
@@ -215,7 +249,7 @@
               }
               return sum / data[d.id].v2.votes[year] >= 0.5;
             }, '#ccc');
-            main.getLayer('wahlkreise').tooltips(function(d) {
+            main.getLayer('fg').tooltips(function(d) {
               var key, keys, sum, total, tt, v, _i, _len;
               keys = coalition.parties;
               sum = 0;
