@@ -54,9 +54,11 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
           
           if (deltaX >= 50) {
             $this.trigger("swipeLeft");
+            event.preventDefault();
           }
           if (deltaX <= -50) {
             $this.trigger("swipeRight");
+            event.preventDefault();
           }
           if (deltaY >= 50) {
             $this.trigger("swipeUp");
@@ -68,7 +70,6 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
             $this.unbind('touchmove', touchmove);
           }
         }
-        event.preventDefault();
       }
       
     });

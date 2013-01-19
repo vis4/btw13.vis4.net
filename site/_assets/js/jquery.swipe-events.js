@@ -26,9 +26,11 @@
           
           if (deltaX >= 50) {
             $this.trigger("swipeLeft");
+            event.preventDefault();
           }
           if (deltaX <= -50) {
             $this.trigger("swipeRight");
+            event.preventDefault();
           }
           if (deltaY >= 50) {
             $this.trigger("swipeUp");
@@ -40,7 +42,6 @@
             $this.unbind('touchmove', touchmove);
           }
         }
-        event.preventDefault();
       }
       
     });
