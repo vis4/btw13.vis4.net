@@ -114,7 +114,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         return turnright();
       }
     });
-    $('body').swipeEvents().bind('swipeLeft', turnleft).bind('swipeRight', turnright);
+    $('body').swipeEvents().bind('swipeRight', turnleft).bind('swipeLeft', turnright);
     return elsel;
   };
 

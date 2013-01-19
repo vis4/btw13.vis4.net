@@ -86,7 +86,7 @@
         return turnright();
       }
     });
-    $('body').swipeEvents().bind('swipeLeft', turnleft).bind('swipeRight', turnright);
+    $('body').swipeEvents().bind('swipeRight', turnleft).bind('swipeLeft', turnright);
     return elsel;
   };
 
