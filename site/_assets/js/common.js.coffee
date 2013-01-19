@@ -23,23 +23,49 @@ Common.humanNames =
 
 Common.ElectionSelector = (data, active, callback, yr) ->
     elsel = $('<div class="election-selector" />').appendTo '#container'
+    currentActive = active
+    update = (a) ->
+        currentActive = a
+        $('a', elsel).removeClass 'active'
+        $('a.i-'+currentActive, elsel).addClass 'active'
     $.each data, (i, item) ->
         y = if yr? then yr item else item
         a = $ '<a><span class="long">'+(if y < 80 then '20' else '19')+'</span>'+y+'</a>'
+        a.addClass 'i-' + i
         a.css
             'margin-right': 10
             cursor: 'pointer'
         a.data 'index', i
         a.click (evt) ->
             active = $(evt.target).data('index')
+            currentActive = active
             r = callback active, evt
             if r
-                $('a', elsel).removeClass 'active'
-                $(evt.target).addClass 'active'
+                update active
             null
         if i == active
             a.addClass 'active'
         elsel.append a
+    turnleft = (evt) ->
+        if currentActive > 0
+            active = currentActive - 1
+            r = callback active, evt
+            if r
+                update active
+    turnright = (evt) ->
+        active = currentActive + 1
+        if $('a.i-'+active).length > 0
+            r =  callback active, evt
+            if r
+                update active
+    $(window).on 'keydown', (evt) ->
+        if evt.keyCode == 37
+            turnleft()
+        else if evt.keyCode == 39
+            turnright()
+    $('body').swipeEvents()
+    .bind('swipeLeft', turnleft)
+    .bind('swipeRight', turnright)
     elsel
 
 Common.CityLabels = [

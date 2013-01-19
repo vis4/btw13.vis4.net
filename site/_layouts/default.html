@@ -18,10 +18,9 @@ libs:
 - /_assets/css/barchart.css.sass
 {% endcss_asset_tag %}
 
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-  {% if page.libs.jquery %}
+  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
   <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
-  {% endif %}
+
   {% if page.libs.raphael %}
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script type="text/javascript">!window.Raphael.version && document.write(unescape('%3Cscript src="/assets/js/raphael-min.js"%3E%3C/script%3E'))</script>

@@ -54,12 +54,19 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
   };
 
   Common.ElectionSelector = function(data, active, callback, yr) {
-    var elsel;
+    var currentActive, elsel, turnleft, turnright, update;
     elsel = $('<div class="election-selector" />').appendTo('#container');
+    currentActive = active;
+    update = function(a) {
+      currentActive = a;
+      $('a', elsel).removeClass('active');
+      return $('a.i-' + currentActive, elsel).addClass('active');
+    };
     $.each(data, function(i, item) {
       var a, y;
       y = yr != null ? yr(item) : item;
       a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + '</a>');
+      a.addClass('i-' + i);
       a.css({
         'margin-right': 10,
         cursor: 'pointer'
@@ -68,10 +75,10 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       a.click(function(evt) {
         var r;
         active = $(evt.target).data('index');
+        currentActive = active;
         r = callback(active, evt);
         if (r) {
-          $('a', elsel).removeClass('active');
-          $(evt.target).addClass('active');
+          update(active);
         }
         return null;
       });
@@ -80,6 +87,34 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       }
       return elsel.append(a);
     });
+    turnleft = function(evt) {
+      var r;
+      if (currentActive > 0) {
+        active = currentActive - 1;
+        r = callback(active, evt);
+        if (r) {
+          return update(active);
+        }
+      }
+    };
+    turnright = function(evt) {
+      var r;
+      active = currentActive + 1;
+      if ($('a.i-' + active).length > 0) {
+        r = callback(active, evt);
+        if (r) {
+          return update(active);
+        }
+      }
+    };
+    $(window).on('keydown', function(evt) {
+      if (evt.keyCode === 37) {
+        return turnleft();
+      } else if (evt.keyCode === 39) {
+        return turnright();
+      }
+    });
+    $('body').swipeEvents().bind('swipeLeft', turnleft).bind('swipeRight', turnright);
     return elsel;
   };
 
