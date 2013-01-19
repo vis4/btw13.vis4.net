@@ -26,13 +26,25 @@
   };
 
   Common.ElectionSelector = function(data, active, callback, yr) {
-    var currentActive, elsel, turnleft, turnright, update;
+    var blocked, currentActive, elsel, turnleft, turnright, update;
     elsel = $('<div class="election-selector" />').appendTo('#container');
     currentActive = active;
-    update = function(a) {
-      currentActive = a;
-      $('a', elsel).removeClass('active');
-      return $('a.i-' + currentActive, elsel).addClass('active');
+    blocked = false;
+    update = function(a, evt) {
+      var r;
+      if (blocked) {
+        return;
+      }
+      blocked = true;
+      setTimeout(function() {
+        return blocked = false;
+      }, 2000);
+      r = callback(a, evt);
+      if (r) {
+        currentActive = a;
+        $('a', elsel).removeClass('active');
+        return $('a.i-' + currentActive, elsel).addClass('active');
+      }
     };
     $.each(data, function(i, item) {
       var a, y;
@@ -45,13 +57,9 @@
       });
       a.data('index', i);
       a.click(function(evt) {
-        var r;
         active = $(evt.target).data('index');
         currentActive = active;
-        r = callback(active, evt);
-        if (r) {
-          update(active);
-        }
+        update(active, evt);
         return null;
       });
       if (i === active) {
@@ -60,23 +68,15 @@
       return elsel.append(a);
     });
     turnleft = function(evt) {
-      var r;
       if (currentActive > 0) {
         active = currentActive - 1;
-        r = callback(active, evt);
-        if (r) {
-          return update(active);
-        }
+        return update(active, evt);
       }
     };
     turnright = function(evt) {
-      var r;
       active = currentActive + 1;
       if ($('a.i-' + active).length > 0) {
-        r = callback(active, evt);
-        if (r) {
-          return update(active);
-        }
+        return update(active, evt);
       }
     };
     $(window).on('keydown', function(evt) {

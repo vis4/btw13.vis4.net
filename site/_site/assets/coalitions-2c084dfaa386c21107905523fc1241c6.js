@@ -26,6 +26,54 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     diff = 1;
     return (time==dur) ? beg+diff : diff * (-Math.pow(2, -10 * time/dur) + 1) + beg;
 };
+(function($) { 
+  $.fn.swipeEvents = function() {
+    return this.each(function() {
+      
+      var startX,
+          startY,
+          $this = $(this);
+      
+      $this.bind('touchstart', touchstart);
+      
+      function touchstart(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          startX = touches[0].pageX;
+          startY = touches[0].pageY;
+          $this.bind('touchmove', touchmove);
+        }
+        event.preventDefault();
+      }
+      
+      function touchmove(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          var deltaX = startX - touches[0].pageX;
+          var deltaY = startY - touches[0].pageY;
+          
+          if (deltaX >= 50) {
+            $this.trigger("swipeLeft");
+          }
+          if (deltaX <= -50) {
+            $this.trigger("swipeRight");
+          }
+          if (deltaY >= 50) {
+            $this.trigger("swipeUp");
+          }
+          if (deltaY <= -50) {
+            $this.trigger("swipeDown");
+          }
+          if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
+            $this.unbind('touchmove', touchmove);
+          }
+        }
+        event.preventDefault();
+      }
+      
+    });
+  };
+})(jQuery);
 (function() {
   var Common, _ref;
 
@@ -54,13 +102,25 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
   };
 
   Common.ElectionSelector = function(data, active, callback, yr) {
-    var currentActive, elsel, turnleft, turnright, update;
+    var blocked, currentActive, elsel, turnleft, turnright, update;
     elsel = $('<div class="election-selector" />').appendTo('#container');
     currentActive = active;
-    update = function(a) {
-      currentActive = a;
-      $('a', elsel).removeClass('active');
-      return $('a.i-' + currentActive, elsel).addClass('active');
+    blocked = false;
+    update = function(a, evt) {
+      var r;
+      if (blocked) {
+        return;
+      }
+      blocked = true;
+      setTimeout(function() {
+        return blocked = false;
+      }, 2000);
+      r = callback(a, evt);
+      if (r) {
+        currentActive = a;
+        $('a', elsel).removeClass('active');
+        return $('a.i-' + currentActive, elsel).addClass('active');
+      }
     };
     $.each(data, function(i, item) {
       var a, y;
@@ -73,13 +133,9 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       });
       a.data('index', i);
       a.click(function(evt) {
-        var r;
         active = $(evt.target).data('index');
         currentActive = active;
-        r = callback(active, evt);
-        if (r) {
-          update(active);
-        }
+        update(active, evt);
         return null;
       });
       if (i === active) {
@@ -88,23 +144,15 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       return elsel.append(a);
     });
     turnleft = function(evt) {
-      var r;
       if (currentActive > 0) {
         active = currentActive - 1;
-        r = callback(active, evt);
-        if (r) {
-          return update(active);
-        }
+        return update(active, evt);
       }
     };
     turnright = function(evt) {
-      var r;
       active = currentActive + 1;
       if ($('a.i-' + active).length > 0) {
-        r = callback(active, evt);
-        if (r) {
-          return update(active);
-        }
+        return update(active, evt);
       }
     };
     $(window).on('keydown', function(evt) {

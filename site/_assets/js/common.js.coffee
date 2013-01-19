@@ -24,10 +24,19 @@ Common.humanNames =
 Common.ElectionSelector = (data, active, callback, yr) ->
     elsel = $('<div class="election-selector" />').appendTo '#container'
     currentActive = active
-    update = (a) ->
-        currentActive = a
-        $('a', elsel).removeClass 'active'
-        $('a.i-'+currentActive, elsel).addClass 'active'
+    blocked = false
+    update = (a, evt) ->
+        if blocked
+            return
+        blocked = true
+        setTimeout () ->
+            blocked = false
+        , 2000
+        r = callback a, evt
+        if r
+            currentActive = a
+            $('a', elsel).removeClass 'active'
+            $('a.i-'+currentActive, elsel).addClass 'active'
     $.each data, (i, item) ->
         y = if yr? then yr item else item
         a = $ '<a><span class="long">'+(if y < 80 then '20' else '19')+'</span>'+y+'</a>'
@@ -39,9 +48,7 @@ Common.ElectionSelector = (data, active, callback, yr) ->
         a.click (evt) ->
             active = $(evt.target).data('index')
             currentActive = active
-            r = callback active, evt
-            if r
-                update active
+            update active, evt
             null
         if i == active
             a.addClass 'active'
@@ -49,15 +56,11 @@ Common.ElectionSelector = (data, active, callback, yr) ->
     turnleft = (evt) ->
         if currentActive > 0
             active = currentActive - 1
-            r = callback active, evt
-            if r
-                update active
+            update active, evt
     turnright = (evt) ->
         active = currentActive + 1
         if $('a.i-'+active).length > 0
-            r =  callback active, evt
-            if r
-                update active
+            update active, evt
     $(window).on 'keydown', (evt) ->
         if evt.keyCode == 37
             turnleft()
