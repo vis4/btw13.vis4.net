@@ -182,6 +182,10 @@ $ () ->
 
                         Kartograph.dorlingLayout _sg
 
+                    setTimeout () ->
+                        $('#map-controls').fadeIn(1000)
+                    ,1000
+
                     $.each keys, (i, key) ->
                         _key = key
                         _cs = getColorScale()

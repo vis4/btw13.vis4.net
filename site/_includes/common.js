@@ -5,7 +5,7 @@ var classes = {
     'CDU': 'CDU',
     'SPD': 'SPD',
     'FDP': 'FDP',
-    'LPDS': 'LIN',
+    'LINKE': 'LIN',
     'GRÜNE': 'GRU',
     'PIRATEN': 'PIR'
 },

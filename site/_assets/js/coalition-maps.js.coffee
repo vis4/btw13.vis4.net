@@ -11,13 +11,13 @@ $ () ->
         name: 'Schwarz-Gelb'
         parties: ['CDU', 'FDP']
     ,
-        id: 'cdu-gruene'
-        name: 'Schwarz-Grün'
-        parties: ['CDU', 'GRÜNE']
-    ,
         id: 'spd-gruene'
         name: 'Rot-Grün'
         parties: ['SPD', 'GRÜNE']
+    ,
+        id: 'cdu-gruene'
+        name: 'Schwarz-Grün'
+        parties: ['CDU', 'GRÜNE']
     ,
         id: 'cdu-spd'
         name: 'Große Koalition'
@@ -105,7 +105,7 @@ $ () ->
                                 cursor: 'pointer'
                                 stroke: '#fff'
                                 'stroke-width': 0
-                                fill: '#ccc'
+                                fill: '#ddd'
 
                         t.append '<label>'+coalition.name+'</label>'
                         t.css 'opacity', 0
@@ -131,13 +131,16 @@ $ () ->
 
                 updateMaps = (coalition) ->
                     lastCoalition = coalition
+                    cnt = 0
                     main.getLayer('wahlkreise')
                     .applyTexture '/assets/img/'+coalition.id+'.png', (d) ->
                         keys = coalition.parties
                         sum = 0
                         for key in keys
                             sum += data[d.id].v2[key][year]
-                        sum / data[d.id].v2.votes[year] >= 0.5
+                        v = sum / data[d.id].v2.votes[year]
+                        cnt++ if v >= 0.5
+                        v >= 0.5
                     , '#ccc'
                     main.getLayer('fg').tooltips (d) ->
                         keys = coalition.parties
@@ -155,6 +158,7 @@ $ () ->
                     $('.coal').removeClass 'active'
                     $('.coal.'+coalition.id).addClass 'active'
                     $('h1.key').html coalition.parties.join('+')
+                    $('.num-wk').html cnt
 
                     $.each coalitions.slice(0,5), (i, coalition) ->
                         t = $('.thumb.'+coalition.id)
@@ -167,7 +171,7 @@ $ () ->
                             if sum / data[d.id].v2.votes[year] >= 0.5
                                 '#999'
                             else
-                                '#ccc'
+                                '#ddd'
 
                 initMaps()
                 updateMaps coalitions[0]

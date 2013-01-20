@@ -31,7 +31,7 @@ Common.ElectionSelector = (data, active, callback, yr) ->
         blocked = true
         setTimeout () ->
             blocked = false
-        , 2000
+        , 1000
         r = callback a, evt
         if r
             currentActive = a

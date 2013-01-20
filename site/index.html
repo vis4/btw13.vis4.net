@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="refresh" content="3;url=/de/" />
-<script type="text/javascript">
-if (navigator.language) {
-    if (navigator.language.substr(0,2) == "de") location.href = "/de/";
-    else location.href = "/en/";
-}
-</script>
-</head>
-</html>
+---
+layout: default-de
+title: Visualisierungen zur Landtagswahl in Niedersachsen
+nav:
+- id: koalitionen
+  title: Wahlgewinner und Koalitionen
+- id: wahlkarten
+  title: Wahlkarten der Zweitstimmen
+- id: koalitionskarten
+  title: Lokale Koalitions-mehrheiten
+- id: zeitreihen
+  title: Historische Wahlergebnisse
+- id: wahlkreise
+  title: Alle Wahlkreise im Überblick
+---
 
+<div class="row intro">
+    {% for p in page.nav %}
+    <div class="span6">
+      <h4><a href="/{{ p.id }}">{{ p.title }}</a></h4>
+        <a href="/{{ p.id }}"><img src="/assets/img/teaser/{{ p.id }}_snapseed.jpg" alt="{{ p.title }}" /></a>
+        
+    </div>
+    {% endfor %}
+</div>

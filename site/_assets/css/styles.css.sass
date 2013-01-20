@@ -19,7 +19,7 @@ body
         position: relative
 
         .menu
-            margin: 20px 0 30px
+            margin: 0px 0 30px
             height: 28px
             position: absolute
             right: 0
@@ -61,7 +61,11 @@ body
                 font-weight: 300
                 line-height: 36px
 
-        .subtitle
+                a
+                    text-decoration: none
+                    color: #333
+
+        .subtitle, h3
             font-size: 25px
             font-weight: 300
             line-height: 30px
@@ -84,8 +88,9 @@ body
                 content: '‘'
 
             a.active
-                font-weight: bold
-                font-size: 24px
+                font-weight: normal
+                font-size: 38px
+                border-bottom: 3px solid #ccc
                 color: #000
 
                 .long
@@ -98,7 +103,7 @@ body
 
             .wahlkreise
                 margin-top: 20px
-                margin-left: 220px
+                margin-left: 0px
 
                 .wahlkreis
                     line-height: 34px
@@ -107,7 +112,7 @@ body
                     .name
                         width: 200px
                     .est
-                        width: 100px
+                        width: 130px
                         text-align: left
                         margin-right: 5px
                         position: relative
@@ -146,16 +151,20 @@ body
                             background: $LIN
 
                     .win2
-                        width: 180px
+                        width: 190px
 
                 .wahlkreis.header
                     div
                         font-weight: bold
+                        font-size: 13px
+                        line-height: 18px
 
                     .win div
                         background: none
                         font-weight: 400
                         color: #000
+                        margin-top: 5px
+                        font-size: 12px
                         line-height: 15px
                         font-style: italic
 
@@ -239,6 +248,7 @@ body
         #footer
             margin-top: 20px
             padding-top: 10px
+            padding-bottom: 20px
             border-top: 1px solid #ddd
             position: relative
 
@@ -257,3 +267,44 @@ sup
 b
     font-weight: bold
 
+.row.intro
+
+    .span6
+        position: relative
+
+        h4
+            position: absolute
+            top: 0px
+            padding: 10px 10px
+            left: 0px
+            right: 0px
+            z-index: 100
+            height: 40px
+            background: rgba(255,255,255,0.95)
+            a
+                text-decoration: none
+                color: #000
+                font-size: 16px
+                font-weight: bold
+                text-shadow: 0 2px 2px #fff
+
+
+        img
+            opacity: 1
+            border-radius: 10px
+    .span6:hover
+        img
+            opacity: 1
+
+.intro:hover
+
+    .span6
+        h4 a
+            font-weight: 300!important
+        img
+            opacity: 0.3!important
+    .span6:hover
+        h4 a
+            font-weight: bold!important
+        img
+            opacity: 1!important

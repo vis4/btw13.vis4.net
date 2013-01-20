@@ -1,0 +1,51 @@
+---
+layout: default-de
+title: Verteilung der Zweitstimmmen je Partei
+lang: de
+libs:
+    jquery: true
+    raphael: true
+    kartograph: true
+    chroma: true
+---
+
+<div id="map-controls" style="display:none">
+    <h1 class="key">CDU</h1>
+    <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
+
+    <p>Die nebenstehende Karte zeigt den <b>Zweitstimmenanteil der <span class="key"></span> bei der Landtagswahl <span class="yr"></span></b>, umgerechnet auf die Wahlkreise von 2013.</p>
+
+    <p>Aus den Karten lassen sich Einsichten über die regionale Verteilung der Stimmen einer einzelnen Partei gewinnen. Der zeitliche Vergleich ist möglich, da jeweils dieselbe Farbskale verwendet wurde. </p>
+
+    <label>Andere Partei zeigen</label>
+    <select id="other-parties">
+    </select>
+
+    <div class="map-type-sel">
+        <label>Wahlkreisdarstellung:</label>
+        <p>Flächenmäßig große Wahlkreise sind auf Wahlkarten visuell überrepresentiert, da sie im Vergleich zu den Stadtwahlkreisen oft weniger Wahlberechtigte repräsentieren. Eine alternative Darstellung behebt diesen Fehler.</p>
+        <div class="btn-group map-type">
+          <button data-type="choropleth" class="btn btn-primary">Geographisch</button>
+          <button data-type="dorling" class="btn">Nach Wahlberechtigten</button>
+        </div>
+    </div>
+
+    <div class="legend">
+        <label>Farblegende:</label>
+        <div class="col-legend"></div>
+    </div>
+
+</div>
+<div id="map"></div>
+<div id="map-thumbs">
+
+</div>
+
+
+{% javascript_asset_tag maps %}
+- _assets/js/common.js.coffee
+- _assets/js/jquery.smooth-scroll.min.js
+- _assets/js/jquery.swipe-events.js
+- _assets/js/maps.js.coffee
+{% endjavascript_asset_tag %}
+

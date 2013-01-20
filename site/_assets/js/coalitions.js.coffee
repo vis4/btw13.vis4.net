@@ -315,7 +315,7 @@ $ () ->
         $('<a>13</a>').appendTo(elsel).css
             color: '#ccc'
 
-        $('button').click ()->
+        $('[href=#activate]').click ()->
             justParties = false
             render active, justParties
 

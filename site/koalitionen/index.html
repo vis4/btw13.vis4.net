@@ -1,0 +1,39 @@
+---
+layout: default-de
+title: Wer gewinnt die Wahlen in Niedersachsen?
+lang: de
+libs:
+    jquery: true
+    raphael: true
+---
+
+<div class="vis-coalitions">
+    <div class="desc">
+        <div class="desc-intro">
+
+            <p>Nach gängiger Interpretation gewinnt die Wahlen, wer sich am Ende als Teil einer Regierung wiederfindet. </p>
+
+            <p>Die typischerweise zur Visualisierung von Wahlergebnissen verwendeten Balkendiagramme (<em>siehe rechts</em>) beantworten die Frage nach dem ”Gewinner” einer Wahl kaum. Eine Partei kann die meisten Stimmen erhalten, und doch in der Opposition landen.</p>
+
+            <p>Abhilfe schafft die folgende Darstellung, die statt der einzelnen Parteien die <b>Koalitionen in den Mittelpunkt</b> stellt. Klicken zum Vergrößern!</p>
+<br/>
+            <a href="#activate" ><img style="border:1px solid #9bc;padding:4px;border-radius:4px;box-shadow: 0px 0px 13px #bde" src="/assets/img/koalitionen.png" /></a>
+        </div>
+        <div class="desc-impossible">
+            <p>Zum Vergleich sind auf der rechten Seite die rechnerisch unmöglichen Koalitionen gegenübergestellt.</p>
+            <p>Die Zahl über den Balken zeigt, wieviele Sitze zur Mehrheit fehlen.</p>
+        </div>
+        <div class="desc-possible">
+            Die linke Seite zeigt alle rechnerisch möglichen Regierungskonstellationen. Dabei wurden auch politisch unwahrscheinlichere Koalitionen wie etwa Rot-Rot oder die Jamaika-Koalition berücksichtigt. Die Zahl über den Balken zeigt, wieviele Sitze die jeweilige Koalition (oder Partei) über die erforderliche Mehrheit hinaus hat.
+        </div>
+    </div>
+    <div id="canvas"></div>
+</div>
+
+{% javascript_asset_tag coalitions %}
+- _assets/js/raphael.easing.js
+- _assets/js/jquery.swipe-events.js
+- _assets/js/common.js.coffee
+- _assets/js/coalitions.js.coffee
+{% endjavascript_asset_tag %}
+

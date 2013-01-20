@@ -48,13 +48,13 @@ libs:
 <div id="container">
   <header class="group">
     <div class="header-inner">
-        <h1 class="title">{{ "Landtagswahl<br/>in Niedersachsen" | t: 'Lower Saxony<br/>State Election' }}</h1>
+        <h1 class="title"><a href="/">{{ "Landtagswahl<br/>in Niedersachsen" | t: 'Lower Saxony<br/>State Election' }}</a></h1>
     </div>
     <div class="menu">
         {% for k in page.menu %}
-        {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
+        {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' }}{% endcapture %}
         {% if u == page.url %}{% assign page_id = k[0] %}{% endif %}
-        <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ page.lang }}/{{ k[0] }}/">{{ k[1] }}</a></div>
+        <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ k[0] }}/">{{ k[1] }}</a></div>
         {% endfor %}
     </div>
     <h2 class="subtitle">{{ page.title }}</h2>
@@ -64,8 +64,8 @@ libs:
     {% capture c %}{{ content | strip_newlines }}{% endcapture %}
     {% if c == '' %}
       {% for k in page.menu %}
-      {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' | prepend:page.lang | prepend:'/' }}{% endcapture %}
-      <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ page.lang }}/{{ k[0] }}/">{{ k[1] }}</a></div>
+      {% capture u %}{{ k[0] | append:'/index.html' | prepend:'/' }}{% endcapture %}
+      <div class="item{% if u == page.url %} active{% endif %}"><a href="/{{ k[0] }}/">{{ k[1] }}</a></div>
       {% endfor %}
     {% else %}
       {{ content }}
@@ -73,7 +73,7 @@ libs:
   </div>
   <div id="footer">
     <div>
-      {{ "Konzept und Visualisierung" | t: "Idea &amp; Visualization" }}: Gregor Aisch
+      {{ "Konzept und Visualisierung" | t: "Idea &amp; Visualization" }}: <a href="http://driven-by-data.net">Gregor Aisch</a>
     </div>
 
     <div>
