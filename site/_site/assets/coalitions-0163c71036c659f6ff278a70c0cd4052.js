@@ -505,11 +505,11 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     } else {
       progn = $($('.prognosen a').get(0)).attr('href').substr(1);
     }
-    $.ajax({
+    return $.ajax({
       url: '/assets/data/' + progn + '.json',
       dataType: 'json'
     }).done(function(json) {
-      var active, elsel, justParties, p;
+      var active, blocked, elsel, justParties, p;
       elections = json;
       active = elections.length - 1;
       elections[active].s = 0;
@@ -527,12 +527,25 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         justParties = false;
         return render(active, justParties);
       });
-      return render(active, justParties);
-    });
-    return $('.prognosen a').click(function(evt) {
-      evt.preventDefault();
-      location.href = '/koalitionen/' + $(evt.target).attr('href');
-      return location.reload();
+      render(active, justParties);
+      blocked = false;
+      return $('.prognosen a').click(function(evt) {
+        var a, prog;
+        if (blocked) {
+          return;
+        }
+        blocked = true;
+        evt.preventDefault();
+        a = $(evt.target);
+        prog = a.attr('href').substr(1);
+        $('.prognosen a').removeClass('active');
+        return $.getJSON('/assets/data/' + prog + '.json', function(data) {
+          elections[elections.length - 1] = data[data.length - 1];
+          render(active, justParties);
+          a.addClass('active');
+          return blocked = false;
+        });
+      });
     });
   });
 

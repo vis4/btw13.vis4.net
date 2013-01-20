@@ -324,8 +324,24 @@ $ () ->
             render active, justParties
 
         render active, justParties
+        blocked = false
 
-    $('.prognosen a').click (evt) ->
-        evt.preventDefault()
-        location.href = '/koalitionen/' + $(evt.target).attr('href')
-        location.reload()
+        $('.prognosen a').click (evt) ->
+            if blocked
+                return
+            blocked = true
+            evt.preventDefault()
+            a = $(evt.target)
+            prog = a.attr('href').substr(1)
+            $('.prognosen a').removeClass 'active'
+            $.getJSON '/assets/data/' + prog + '.json', (data) ->
+                elections[elections.length-1] = data[data.length-1]
+                render active, justParties
+                a.addClass 'active'
+                blocked = false
+
+            
+            
+            # location.href = '/koalitionen/' + $(evt.target).attr('href')
+            # location.reload()
+
