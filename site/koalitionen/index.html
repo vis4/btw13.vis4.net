@@ -6,7 +6,7 @@ libs:
     jquery: true
     raphael: true
 prognosen:
-    ard: ['18:37']
+    ard: ['19:05', '18:37', '18:13']
     zdf: ['18:45', '18:16']
 ---
 
@@ -34,15 +34,15 @@ prognosen:
 </div>
 
 <p class="prognosen">*Prognosen wählen: <br/>
-    <b>ZDF / Forschungsgr. Wahlen:</b>
-    {% for t in page.prognosen.zdf %}
-        <a href="#zdf-{{ t | replace: ':', '' }}">{{ t }}</a>&nbsp;&nbsp;
-    {% endfor %}
-
     <b>ARD / Infratest Dimap:</b>
     {% for t in page.prognosen.ard %}
         <a href="#ard-{{ t | replace: ':', '' }}">{{ t }}</a>&nbsp;&nbsp;
     {% endfor %}<br />
+
+    <b>ZDF / Forschungsgr. Wahlen:</b>
+    {% for t in page.prognosen.zdf %}
+        <a href="#zdf-{{ t | replace: ':', '' }}">{{ t }}</a>&nbsp;&nbsp;
+    {% endfor %}
 
 </p>
 
