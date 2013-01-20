@@ -556,7 +556,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       var active, elsel, justParties;
       elections = json;
       active = elections.length - 1;
-      justParties = true;
+      justParties = location.hash !== '/#activate';
       elsel = Common.ElectionSelector(elections, active, function(active) {
         render(active, justParties);
         return true;
