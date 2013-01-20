@@ -297,7 +297,8 @@ $ () ->
     if location.hash.length and location.hash != '#activate'
         progn = location.hash.substr(1).replace(/\//, '-')
     else
-        progn = $($('.prognosen a').get(0)).attr('href').substr(1)
+        #progn = $($('.prognosen a').get(0)).attr('href').substr(1)
+        progn = 'elections-nds-amtl-2342'
 
     $('.prognosen a[href=#'+progn+']').addClass 'active'
 
@@ -316,6 +317,7 @@ $ () ->
 
         elsel = Common.ElectionSelector elections, active
         , (active) ->  # click callback
+            $('.prognosen a').removeClass 'active'
             render active, justParties
             true
         , (e) ->  # function that extracts year

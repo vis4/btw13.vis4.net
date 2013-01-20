@@ -126,7 +126,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     $.each(data, function(i, item) {
       var a, y;
       y = yr != null ? yr(item) : item;
-      a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + (y === '13' ? '<sup>*</sup>' : '') + '</a>');
+      a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + '</a>');
       a.addClass('i-' + i);
       a.css({
         'margin-right': 10,
@@ -552,7 +552,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     if (location.hash.length && location.hash !== '#activate') {
       progn = location.hash.substr(1).replace(/\//, '-');
     } else {
-      progn = $($('.prognosen a').get(0)).attr('href').substr(1);
+      progn = 'elections-nds-amtl-2342';
     }
     $('.prognosen a[href=#' + progn + ']').addClass('active');
     return $.ajax({
@@ -568,6 +568,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       }
       justParties = location.hash.length === 0;
       elsel = Common.ElectionSelector(elections, active, function(active) {
+        $('.prognosen a').removeClass('active');
         render(active, justParties);
         return true;
       }, function(e) {
