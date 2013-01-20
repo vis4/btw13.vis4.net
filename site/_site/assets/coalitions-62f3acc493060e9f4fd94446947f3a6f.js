@@ -26,6 +26,55 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     diff = 1;
     return (time==dur) ? beg+diff : diff * (-Math.pow(2, -10 * time/dur) + 1) + beg;
 };
+(function($) { 
+  $.fn.swipeEvents = function() {
+    return this.each(function() {
+      
+      var startX,
+          startY,
+          $this = $(this);
+      
+      $this.bind('touchstart', touchstart);
+      
+      function touchstart(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          startX = touches[0].pageX;
+          startY = touches[0].pageY;
+          $this.bind('touchmove', touchmove);
+        }
+        event.preventDefault();
+      }
+      
+      function touchmove(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          var deltaX = startX - touches[0].pageX;
+          var deltaY = startY - touches[0].pageY;
+          
+          if (deltaX >= 50) {
+            $this.trigger("swipeLeft");
+            event.preventDefault();
+          }
+          if (deltaX <= -50) {
+            $this.trigger("swipeRight");
+            event.preventDefault();
+          }
+          if (deltaY >= 50) {
+            $this.trigger("swipeUp");
+          }
+          if (deltaY <= -50) {
+            $this.trigger("swipeDown");
+          }
+          if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
+            $this.unbind('touchmove', touchmove);
+          }
+        }
+      }
+      
+    });
+  };
+})(jQuery);
 (function() {
   var Common, _ref;
 
@@ -507,7 +556,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       var active, elsel, justParties;
       elections = json;
       active = elections.length - 1;
-      justParties = location.hash !== '/#activate';
+      justParties = location.hash !== '#activate';
       elsel = Common.ElectionSelector(elections, active, function(active) {
         render(active, justParties);
         return true;

@@ -303,7 +303,7 @@ $ () ->
 
         active = elections.length-1
 
-        justParties = location.hash != '/#activate'
+        justParties = location.hash != '#activate'
 
         elsel = Common.ElectionSelector elections, active
         , (active) ->  # click callback
