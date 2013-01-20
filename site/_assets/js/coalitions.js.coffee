@@ -338,11 +338,15 @@ $ () ->
             $('.prognosen a').removeClass 'active'
             $.getJSON '/assets/data/' + prog + '.json', (data) ->
                 latest = data[data.length-1]
+                different = false
                 latest.s = 0
                 for p of latest.result
+                    if elections[elections.length-1].result[p].s != latest.result[p].s
+                        different = true
                     latest.s += Number(latest.result[p].s)
                 elections[elections.length-1] = latest
-                render active, justParties
+                if different
+                    render active, justParties
                 a.addClass 'active'
                 blocked = false
 
