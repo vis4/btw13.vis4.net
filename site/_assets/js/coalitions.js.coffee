@@ -299,6 +299,8 @@ $ () ->
     else
         progn = $($('.prognosen a').get(0)).attr('href').substr(1)
 
+    $('.prognosen a[href=#'+progn+']').addClass 'active'
+
     $.ajax
         url: '/assets/data/'+progn+'.json'
         dataType: 'json'

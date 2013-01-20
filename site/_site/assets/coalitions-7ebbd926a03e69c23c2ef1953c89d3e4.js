@@ -505,6 +505,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     } else {
       progn = $($('.prognosen a').get(0)).attr('href').substr(1);
     }
+    $('.prognosen a[href=#' + progn + ']').addClass('active');
     return $.ajax({
       url: '/assets/data/' + progn + '.json',
       dataType: 'json'
