@@ -49,7 +49,7 @@
     $.each(data, function(i, item) {
       var a, y;
       y = yr != null ? yr(item) : item;
-      a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + '</a>');
+      a = $('<a><span class="long">' + (y < 80 ? '20' : '19') + '</span>' + y + (y === '13' ? '<sup>*</sup>' : '') + '</a>');
       a.addClass('i-' + i);
       a.css({
         'margin-right': 10,

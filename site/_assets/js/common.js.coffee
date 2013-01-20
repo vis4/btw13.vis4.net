@@ -39,7 +39,7 @@ Common.ElectionSelector = (data, active, callback, yr) ->
             $('a.i-'+currentActive, elsel).addClass 'active'
     $.each data, (i, item) ->
         y = if yr? then yr item else item
-        a = $ '<a><span class="long">'+(if y < 80 then '20' else '19')+'</span>'+y+'</a>'
+        a = $ '<a><span class="long">'+(if y < 80 then '20' else '19')+'</span>'+y+(if y == '13' then '<sup>*</sup>' else '')+'</a>'
         a.addClass 'i-' + i
         a.css
             'margin-right': 10
