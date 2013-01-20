@@ -294,16 +294,23 @@ $ () ->
             $('.desc-impossible, .desc-possible, .label.left').show()
             bg.animate bgprops, 800, 'expoInOut'
 
+    if location.hash.length
+        progn = location.hash.substr(1).replace(/\//, '-')
+    else
+        progn = $($('.prognosen a').get(0)).attr('href').substr(1)
 
     $.ajax
-        url: '/assets/data/elections-nds.json'
+        url: '/assets/data/'+progn+'.json'
         dataType: 'json'
     .done (json) ->
         elections = json
 
         active = elections.length-1
 
-        justParties = location.hash != '#activate'
+        elections[active].s = 0
+        for p of elections[active].result
+            elections[active].s += Number(elections[active].result[p].s)
+        justParties = location.hash.length == 0
 
         elsel = Common.ElectionSelector elections, active
         , (active) ->  # click callback
@@ -312,10 +319,13 @@ $ () ->
         , (e) ->  # function that extracts year
             e.yr
 
-
         $('[href=#activate]').click ()->
             justParties = false
             render active, justParties
 
         render active, justParties
 
+    $('.prognosen a').click (evt) ->
+        evt.preventDefault()
+        location.href = '/koalitionen/' + $(evt.target).attr('href')
+        location.reload()

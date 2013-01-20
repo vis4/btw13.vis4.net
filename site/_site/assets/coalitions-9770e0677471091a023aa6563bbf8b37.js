@@ -26,6 +26,55 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     diff = 1;
     return (time==dur) ? beg+diff : diff * (-Math.pow(2, -10 * time/dur) + 1) + beg;
 };
+(function($) { 
+  $.fn.swipeEvents = function() {
+    return this.each(function() {
+      
+      var startX,
+          startY,
+          $this = $(this);
+      
+      $this.bind('touchstart', touchstart);
+      
+      function touchstart(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          startX = touches[0].pageX;
+          startY = touches[0].pageY;
+          $this.bind('touchmove', touchmove);
+        }
+        event.preventDefault();
+      }
+      
+      function touchmove(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          var deltaX = startX - touches[0].pageX;
+          var deltaY = startY - touches[0].pageY;
+          
+          if (deltaX >= 50) {
+            $this.trigger("swipeLeft");
+            event.preventDefault();
+          }
+          if (deltaX <= -50) {
+            $this.trigger("swipeRight");
+            event.preventDefault();
+          }
+          if (deltaY >= 50) {
+            $this.trigger("swipeUp");
+          }
+          if (deltaY <= -50) {
+            $this.trigger("swipeDown");
+          }
+          if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
+            $this.unbind('touchmove', touchmove);
+          }
+        }
+      }
+      
+    });
+  };
+})(jQuery);
 (function() {
   var Common, _ref;
 
@@ -158,7 +207,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
 (function() {
 
   $(function() {
-    var bar_w, bg, canvas, elections, get_coalitions, grid, height, partyColors, render, stacked_bars, width, _coalitions, _cont, _lblcont;
+    var bar_w, bg, canvas, elections, get_coalitions, grid, height, partyColors, progn, render, stacked_bars, width, _coalitions, _cont, _lblcont;
     _coalitions = ["CDU,SPD", "CDU,FDP", "CDU,GRÜNE", "SPD,GRÜNE", "SPD,FDP", "SPD,LINKE", "CDU,FDP,GRÜNE", "SPD,FDP,GRÜNE", "SPD,LINKE,GRÜNE"];
     _cont = $('#canvas');
     _lblcont = $('.vis-coalitions');
@@ -500,14 +549,23 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         return bg.animate(bgprops, 800, 'expoInOut');
       }
     };
-    return $.ajax({
-      url: '/assets/data/elections-nds.json',
+    if (location.hash.length) {
+      progn = location.hash.substr(1).replace(/\//, '-');
+    } else {
+      progn = $($('.prognosen a').get(0)).attr('href').substr(1);
+    }
+    $.ajax({
+      url: '/assets/data/' + progn + '.json',
       dataType: 'json'
     }).done(function(json) {
-      var active, elsel, justParties;
+      var active, elsel, justParties, p;
       elections = json;
       active = elections.length - 1;
-      justParties = location.hash !== '#activate';
+      elections[active].s = 0;
+      for (p in elections[active].result) {
+        elections[active].s += Number(elections[active].result[p].s);
+      }
+      justParties = location.hash.length === 0;
       elsel = Common.ElectionSelector(elections, active, function(active) {
         render(active, justParties);
         return true;
@@ -519,6 +577,11 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         return render(active, justParties);
       });
       return render(active, justParties);
+    });
+    return $('.prognosen a').click(function(evt) {
+      evt.preventDefault();
+      location.href = '/koalitionen/' + $(evt.target).attr('href');
+      return location.reload();
     });
   });
 

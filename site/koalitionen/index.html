@@ -5,6 +5,9 @@ lang: de
 libs:
     jquery: true
     raphael: true
+prognosen:
+    ard: ['18:13']
+    zdf: ['18:16']
 ---
 
 <div class="vis-coalitions">
@@ -30,7 +33,17 @@ libs:
     <div id="canvas"></div>
 </div>
 
-<p>*Prognose: Infratest dimap, 18:05 Uhr</p>
+<p class="prognosen">Prognosen wählen: <br/>
+    <b>ARD / Infratest Dimap:</b>
+    {% for t in page.prognosen.ard %}
+        <a href="#ard-{{ t | replace: ':', '' }}">{{ t }}</a>&nbsp;&nbsp;
+    {% endfor %}<br />
+    <b>ZDF / Forschungsgr. Wahlen:</b>
+    {% for t in page.prognosen.zdf %}
+        <a href="#zdf-{{ t | replace: ':', '' }}">{{ t }}</a>&nbsp;&nbsp;
+    {% endfor %}
+
+</p>
 
 {% javascript_asset_tag coalitions %}
 - _assets/js/raphael.easing.js
