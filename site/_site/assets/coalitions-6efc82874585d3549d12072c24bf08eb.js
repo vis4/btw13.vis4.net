@@ -563,9 +563,6 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
       }, function(e) {
         return e.yr;
       });
-      $('<a>13</a>').appendTo(elsel).css({
-        color: '#ccc'
-      });
       $('[href=#activate]').click(function() {
         justParties = false;
         return render(active, justParties);

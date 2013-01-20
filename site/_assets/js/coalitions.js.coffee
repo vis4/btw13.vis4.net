@@ -312,8 +312,6 @@ $ () ->
         , (e) ->  # function that extracts year
             e.yr
 
-        $('<a>13</a>').appendTo(elsel).css
-            color: '#ccc'
 
         $('[href=#activate]').click ()->
             justParties = false
