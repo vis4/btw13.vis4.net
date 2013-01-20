@@ -127,58 +127,6 @@
 
 }).call(this);
 
-/*! Smooth Scroll - v1.4.7 - 2012-10-29
-* Copyright (c) 2012 Karl Swedberg; Licensed MIT, GPL */
-(function(a){function f(a){return a.replace(/(:|\.)/g,"\\$1")}var b="1.4.7",c={exclude:[],excludeWithin:[],offset:0,direction:"top",scrollElement:null,scrollTarget:null,beforeScroll:function(){},afterScroll:function(){},easing:"swing",speed:400,autoCoefficent:2},d=function(b){var c=[],d=!1,e=b.dir&&b.dir=="left"?"scrollLeft":"scrollTop";return this.each(function(){if(this==document||this==window)return;var b=a(this);b[e]()>0?c.push(this):(b[e](1),d=b[e]()>0,d&&c.push(this),b[e](0))}),c.length||this.each(function(a){this.nodeName==="BODY"&&(c=[this])}),b.el==="first"&&c.length>1&&(c=[c[0]]),c},e="ontouchend"in document;a.fn.extend({scrollable:function(a){var b=d.call(this,{dir:a});return this.pushStack(b)},firstScrollable:function(a){var b=d.call(this,{el:"first",dir:a});return this.pushStack(b)},smoothScroll:function(b){b=b||{};var c=a.extend({},a.fn.smoothScroll.defaults,b),d=a.smoothScroll.filterPath(location.pathname);return this.unbind("click.smoothscroll").bind("click.smoothscroll",function(b){var e=this,g=a(this),h=c.exclude,i=c.excludeWithin,j=0,k=0,l=!0,m={},n=location.hostname===e.hostname||!e.hostname,o=c.scrollTarget||(a.smoothScroll.filterPath(e.pathname)||d)===d,p=f(e.hash);if(!c.scrollTarget&&(!n||!o||!p))l=!1;else{while(l&&j<h.length)g.is(f(h[j++]))&&(l=!1);while(l&&k<i.length)g.closest(i[k++]).length&&(l=!1)}l&&(b.preventDefault(),a.extend(m,c,{scrollTarget:c.scrollTarget||p,link:e}),a.smoothScroll(m))}),this}}),a.smoothScroll=function(b,c){var d,e,f,g,h=0,i="offset",j="scrollTop",k={},l={},m=[];typeof b=="number"?(d=a.fn.smoothScroll.defaults,f=b):(d=a.extend({},a.fn.smoothScroll.defaults,b||{}),d.scrollElement&&(i="position",d.scrollElement.css("position")=="static"&&d.scrollElement.css("position","relative"))),d=a.extend({link:null},d),j=d.direction=="left"?"scrollLeft":j,d.scrollElement?(e=d.scrollElement,h=e[j]()):e=a("html, body").firstScrollable(),d.beforeScroll.call(e,d),f=typeof b=="number"?b:c||a(d.scrollTarget)[i]()&&a(d.scrollTarget)[i]()[d.direction]||0,k[j]=f+h+d.offset,g=d.speed,g==="auto"&&(g=k[j]||e.scrollTop(),g=g/d.autoCoefficent),l={duration:g,easing:d.easing,complete:function(){d.afterScroll.call(d.link,d)}},d.step&&(l.step=d.step),e.length?e.stop().animate(k,l):d.afterScroll.call(d.link,d)},a.smoothScroll.version=b,a.smoothScroll.filterPath=function(a){return a.replace(/^\//,"").replace(/(index|default).[a-zA-Z]{3,4}$/,"").replace(/\/$/,"")},a.fn.smoothScroll.defaults=c})(jQuery);
-(function($) { 
-  $.fn.swipeEvents = function() {
-    return this.each(function() {
-      
-      var startX,
-          startY,
-          $this = $(this);
-      
-      $this.bind('touchstart', touchstart);
-      
-      function touchstart(event) {
-        var touches = event.originalEvent.touches;
-        if (touches && touches.length) {
-          startX = touches[0].pageX;
-          startY = touches[0].pageY;
-          $this.bind('touchmove', touchmove);
-        }
-        event.preventDefault();
-      }
-      
-      function touchmove(event) {
-        var touches = event.originalEvent.touches;
-        if (touches && touches.length) {
-          var deltaX = startX - touches[0].pageX;
-          var deltaY = startY - touches[0].pageY;
-          
-          if (deltaX >= 50) {
-            $this.trigger("swipeLeft");
-            event.preventDefault();
-          }
-          if (deltaX <= -50) {
-            $this.trigger("swipeRight");
-            event.preventDefault();
-          }
-          if (deltaY >= 50) {
-            $this.trigger("swipeUp");
-          }
-          if (deltaY <= -50) {
-            $this.trigger("swipeDown");
-          }
-          if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
-            $this.unbind('touchmove', touchmove);
-          }
-        }
-      }
-      
-    });
-  };
-})(jQuery);
 (function() {
 
   $(function() {
@@ -186,7 +134,7 @@
     map_cont = $('#map');
     thumb_cont = $('#map-thumbs');
     years = ['98', '03', '08', '13'];
-    year = '08';
+    year = '13';
     selected = '';
     mode = 'choropleth';
     _cs = null;
@@ -209,12 +157,12 @@
     partyLimits = {
       CDU: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
       SPD: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
-      FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16],
+      FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.13, 0.15, 0.2],
       'GRÜNE': [0, 0.025, 0.05, 0.08, 0.11, 0.15, 0.18, 0.21],
       'LINKE': [0, 0.005, 0.01, 0.03, 0.05, 0.07, 0.09, 0.11]
     };
     defLimits = [0, 0.0025, 0.005, 0.01, 0.015, 0.03, 0.05, 0.1];
-    return $.getJSON('/assets/data/all.json', function(data) {
+    return $.getJSON('/assets/data/all-13.json', function(data) {
       return $.get('/assets/svg/wk17-alt.svg', function(svg) {
         return $.get('/assets/svg/wk17-small-alt.svg', function(svg2) {
           var barChart, elsel, getColorScale, getVote, initMaps, initUI, main, updateLegend, updateMaps, updateOtherPartySelect, wkFill;
@@ -310,13 +258,13 @@
             sel = $('#other-parties');
             sel.html('');
             others = [];
-            for (key in data['00'].v2) {
-              if (key !== 'votes' && key !== 'voters' && key !== 'turnout' && key !== 'others' && data['00'].v2[key][year] > 0) {
+            for (key in data['77+78'].v2) {
+              if (key !== 'votes' && key !== 'voters' && key !== 'turnout' && key !== 'others' && data['77+78'].v2[key][year] > 0) {
                 others.push(key);
               }
             }
             others.sort(function(a, b) {
-              return data['00'].v2[b][year] - data['00'].v2[a][year];
+              return data['77+78'].v2[b][year] - data['77+78'].v2[a][year];
             });
             for (_i = 0, _len = others.length; _i < _len; _i++) {
               key = others[_i];
@@ -394,7 +342,6 @@
                   return Math.sqrt(data[d.id].v2.voters[year] / 100000) * 20;
                 },
                 tooltip: function(d) {
-                  console.log(d);
                   return '<b>' + d.n + '</b><br />' + barChart(data[d.id].v2, year);
                 }
               });
@@ -527,8 +474,8 @@
           initUI();
           initMaps();
           updateMaps('CDU');
-          return elsel = Common.ElectionSelector(years, 2, function(active) {
-            if (active < 3) {
+          return elsel = Common.ElectionSelector(years, 3, function(active) {
+            if (active < 4) {
               year = years[active];
               updateMaps(lastKey);
               return true;

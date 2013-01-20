@@ -185,7 +185,7 @@
     var coalitions, lastCoalition, main, thumb_cont, year, years;
     thumb_cont = $('#map-thumbs');
     years = ['98', '03', '08', '13'];
-    year = '08';
+    year = '13';
     main = null;
     lastCoalition = null;
     coalitions = [
@@ -219,7 +219,7 @@
         parties: ['SPD', 'LINKE', 'GRÜNE']
       }
     ];
-    return $.getJSON('/assets/data/all.json', function(data) {
+    return $.getJSON('/assets/data/all-13.json', function(data) {
       return $.get('/assets/svg/wk17-alt.svg', function(svg) {
         return $.get('/assets/svg/wk17-small-alt.svg', function(svg2) {
           var elsel, initMaps, updateMaps;
@@ -389,9 +389,9 @@
           };
           initMaps();
           updateMaps(coalitions[0]);
-          return elsel = Common.ElectionSelector(years, 2, function(active) {
+          return elsel = Common.ElectionSelector(years, 3, function(active) {
             console.log(active);
-            if (active < 3) {
+            if (active < 4) {
               year = years[active];
               updateMaps(lastCoalition);
               return true;

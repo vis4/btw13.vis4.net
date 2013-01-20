@@ -3,7 +3,7 @@ $ () ->
 
     thumb_cont = $ '#map-thumbs'
     years = ['98','03','08','13']
-    year = '08'
+    year = '13'
     main = null
     lastCoalition = null
     coalitions = [
@@ -36,7 +36,7 @@ $ () ->
         parties: ['SPD', 'LINKE', 'GRÜNE']
     ]
 
-    $.getJSON '/assets/data/all.json', (data) ->
+    $.getJSON '/assets/data/all-13.json', (data) ->
         $.get '/assets/svg/wk17-alt.svg', (svg) ->
             $.get '/assets/svg/wk17-small-alt.svg', (svg2) ->
 
@@ -176,10 +176,10 @@ $ () ->
                 initMaps()
                 updateMaps coalitions[0]
 
-                elsel = Common.ElectionSelector years, 2
+                elsel = Common.ElectionSelector years, 3
                 , (active) ->  # click callback
                     console.log active
-                    if active < 3  # ignore 2013
+                    if active < 4  # ignore 2013
                         year = years[active]
                         updateMaps lastCoalition
                         return true

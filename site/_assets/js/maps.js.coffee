@@ -6,7 +6,7 @@ $ () ->
     map_cont = $ '#map'
     thumb_cont = $ '#map-thumbs'
     years = ['98','03','08','13']
-    year = '08'
+    year = '13'
     selected = ''
     mode = 'choropleth'
     _cs = null  # global color scale
@@ -31,14 +31,14 @@ $ () ->
     partyLimits =
         CDU: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
         SPD: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-        FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16]
+        FDP: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.13, 0.15, 0.2]
         'GRÜNE': [0, 0.025, 0.05, 0.08, 0.11, 0.15, 0.18, 0.21]
         'LINKE': [0, 0.005, 0.01, 0.03, 0.05, 0.07, 0.09, 0.11]
 
     defLimits = [0, 0.0025, 0.005, 0.01, 0.015, 0.03, 0.05, 0.1]
 
 
-    $.getJSON '/assets/data/all.json', (data) ->
+    $.getJSON '/assets/data/all-13.json', (data) ->
         $.get '/assets/svg/wk17-alt.svg', (svg) ->
             $.get '/assets/svg/wk17-small-alt.svg', (svg2) ->
 
@@ -106,12 +106,12 @@ $ () ->
                     sel = $ '#other-parties'
                     sel.html ''
                     others = []
-                    for key of data['00'].v2
-                        if key != 'votes' and key != 'voters' and key != 'turnout' and key != 'others' and data['00'].v2[key][year] > 0
+                    for key of data['77+78'].v2
+                        if key != 'votes' and key != 'voters' and key != 'turnout' and key != 'others' and data['77+78'].v2[key][year] > 0
                             others.push key
 
                     others.sort (a,b) ->
-                        data['00'].v2[b][year] - data['00'].v2[a][year]
+                        data['77+78'].v2[b][year] - data['77+78'].v2[a][year]
                     for key in others
                         sel.append '<option '+(if key == lastKey then 'selected="selected"')+'>'+key+'</option>'
                     return
@@ -177,7 +177,6 @@ $ () ->
                             radius: (d) ->
                                 Math.sqrt(data[d.id].v2.voters[year] / 100000) * 20
                             tooltip: (d) ->
-                                console.log d
                                 '<b>'+d.n+'</b><br />' + barChart(data[d.id].v2, year)
 
                         Kartograph.dorlingLayout _sg
@@ -294,9 +293,9 @@ $ () ->
                 updateMaps 'CDU'
 
 
-                elsel = Common.ElectionSelector years, 2
+                elsel = Common.ElectionSelector years, 3
                 , (active) ->  # click callback
-                    if active < 3  # ignore 2013
+                    if active < 4 # ignore 2013
                         year = years[active]
                         updateMaps lastKey
                         return true
