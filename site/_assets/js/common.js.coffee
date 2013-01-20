@@ -66,9 +66,6 @@ Common.ElectionSelector = (data, active, callback, yr) ->
             turnleft()
         else if evt.keyCode == 39
             turnright()
-    $('body').swipeEvents()
-    .bind('swipeRight', turnleft)
-    .bind('swipeLeft', turnright)
     elsel
 
 Common.CityLabels = [
