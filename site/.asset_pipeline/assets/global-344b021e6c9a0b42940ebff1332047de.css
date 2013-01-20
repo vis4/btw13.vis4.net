@@ -747,10 +747,20 @@ b {
 .intro:hover .span6:hover img {
   opacity: 1 !important; }
 
-.prognosen a.active {
-  font-weight: bold;
-  color: black;
-  text-decoration: none; }
+.prognosen {
+  line-height: 22px; }
+  .prognosen em {
+    font-style: italic; }
+  .prognosen a, .prognosen a:visited {
+    color: #3388cc;
+    text-decoration: none; }
+  .prognosen a:hover {
+    text-decoration: underline; }
+  .prognosen a.active {
+    font-weight: bold;
+    color: black; }
+  .prognosen a.active:hover {
+    text-decoration: none; }
 
 body #canvas {
   height: 400px; }
