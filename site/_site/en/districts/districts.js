@@ -112,7 +112,7 @@ $(function() {
             var win = $('<div class="win2 win" />').appendTo(wkdiv);
             var v = [];
             $.each(['CDU','SPD','FDP','GRÜNE','LINKE'], function(i, k) {
-                v.push({ k: classes[k], v: 100 * wk.v2[k]['03'] / wk.v2.votes['03'] });
+                v.push({ k: classes[k], v: 100 * wk.v2[k]['08'] / wk.v2.votes['08'] });
             });
             //v.sort(function(a,b) { return b.v - a.v; });
             $.each(v, function(i, e) {
@@ -122,7 +122,7 @@ $(function() {
             win = $('<div class="win2 win" />').appendTo(wkdiv);
             v = [];
             $.each(['CDU','SPD','FDP','GRÜNE','LINKE'], function(i, k) {
-                v.push({ k: classes[k], v: 100 * wk.v2[k]['08'] / wk.v2.votes['08'] });
+                v.push({ k: classes[k], v: 100 * wk.v2[k]['13'] / wk.v2.votes['13'] });
             });
             //v.sort(function(a,b) { return b.v - a.v; });
             $.each(v, function(i, e) {
@@ -131,7 +131,7 @@ $(function() {
 
             // direktmandate
             win = $('<div class="win" />').appendTo(wkdiv);
-            $.each(['98','03','08'], function(i, yr) {
+            $.each(['98','03','08', '13'], function(i, yr) {
                 var v = [], diff;
                 $.each(wk.v1, function(key, vals) {
                     if (key == 'votes' || key == 'voters' || key == 'turnout' || key === '' || !vals[yr]) return;
@@ -140,12 +140,12 @@ $(function() {
                 v.sort(function(a,b) { return b.v - a.v; });
                 diff = 100 * (v[0].v - v[1].v) / wk.v1.votes[yr];
                 wk['v1-diff-'+yr] = diff;
-                console.log(v[0], classes[v[0].k]);
+                
                 var d = $('<div>+'+(diff).toFixed(diff < 1 ? 1 : 0)+'</div>').addClass(classes[v[0].k]).appendTo(win);
                 d.attr('title', diff.toFixed(1).replace('.', ',')+'% Vorsprung vor dem Zweitplatzierten');
                 if (diff >= 20) d.addClass('highlight');
             });
-            $('<div>?</div>').appendTo(win);
+            //$('<div>?</div>').appendTo(win);
 
 
             //wkdiv.append('<div class="est">'+wk.p+'<div class="bar" style="width:50%"></div></div>');
@@ -162,7 +162,7 @@ $(function() {
 
     }
 
-    $.getJSON('/assets/data/all.json').done(function(all) {
+    $.getJSON('/assets/data/all-13.json').done(function(all) {
         render(all, getSortBy('n'));
     });
 
