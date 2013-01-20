@@ -748,7 +748,9 @@ b {
   opacity: 1 !important; }
 
 .prognosen a.active {
-  font-weight: bold; }
+  font-weight: bold;
+  color: black;
+  text-decoration: none; }
 
 body #canvas {
   height: 400px; }
