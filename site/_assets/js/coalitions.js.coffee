@@ -348,6 +348,7 @@ $ () ->
                 if different
                     render active, justParties
                 a.addClass 'active'
+                location.hash = '#' + prog
                 blocked = false
 
             
