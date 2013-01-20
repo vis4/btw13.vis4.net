@@ -747,6 +747,9 @@ b {
 .intro:hover .span6:hover img {
   opacity: 1 !important; }
 
+.prognosen a.active {
+  font-weight: bold; }
+
 body #canvas {
   height: 400px; }
 body .vis-coalitions {
