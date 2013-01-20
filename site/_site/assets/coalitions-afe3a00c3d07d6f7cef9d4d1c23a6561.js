@@ -549,7 +549,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         return bg.animate(bgprops, 800, 'expoInOut');
       }
     };
-    if (location.hash.length) {
+    if (location.hash.length && location.hash !== '#activate') {
       progn = location.hash.substr(1).replace(/\//, '-');
     } else {
       progn = $($('.prognosen a').get(0)).attr('href').substr(1);
@@ -590,7 +590,13 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
         prog = a.attr('href').substr(1);
         $('.prognosen a').removeClass('active');
         return $.getJSON('/assets/data/' + prog + '.json', function(data) {
-          elections[elections.length - 1] = data[data.length - 1];
+          var latest;
+          latest = data[data.length - 1];
+          latest.s = 0;
+          for (p in latest.result) {
+            latest.s += Number(latest.result[p].s);
+          }
+          elections[elections.length - 1] = latest;
           render(active, justParties);
           a.addClass('active');
           return blocked = false;

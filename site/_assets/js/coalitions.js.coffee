@@ -294,7 +294,7 @@ $ () ->
             $('.desc-impossible, .desc-possible, .label.left').show()
             bg.animate bgprops, 800, 'expoInOut'
 
-    if location.hash.length
+    if location.hash.length and location.hash != '#activate'
         progn = location.hash.substr(1).replace(/\//, '-')
     else
         progn = $($('.prognosen a').get(0)).attr('href').substr(1)
@@ -337,7 +337,11 @@ $ () ->
             prog = a.attr('href').substr(1)
             $('.prognosen a').removeClass 'active'
             $.getJSON '/assets/data/' + prog + '.json', (data) ->
-                elections[elections.length-1] = data[data.length-1]
+                latest = data[data.length-1]
+                latest.s = 0
+                for p of latest.result
+                    latest.s += Number(latest.result[p].s)
+                elections[elections.length-1] = latest
                 render active, justParties
                 a.addClass 'active'
                 blocked = false
