@@ -125,9 +125,12 @@ $(function() {
                 v.push({ k: classes[k], v: 100 * wk.v2[k]['13'] / wk.v2.votes['13'] });
             });
             //v.sort(function(a,b) { return b.v - a.v; });
+            var wksum = 0;
             $.each(v, function(i, e) {
+                wksum += e.v;
                 $('<div>'+e.v.toFixed(0)+'</div>').addClass(e.k).appendTo(win);
             });
+            console.log(wk.id, wksum);
 
             // direktmandate
             win = $('<div class="win" />').appendTo(wkdiv);

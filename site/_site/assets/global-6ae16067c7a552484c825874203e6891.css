@@ -552,6 +552,12 @@ body {
       line-height: 30px;
       letter-spacing: -1px;
       margin: 17px 0 30px; }
+      body #container .subtitle small, body #container h3 small {
+        font-size: 13px;
+        position: relative;
+        top: -12px;
+        font-weight: normal;
+        color: #888888; }
     body #container .election-selector {
       position: absolute;
       right: 0px;
@@ -819,6 +825,9 @@ body .vis-coalitions {
     top: 400px;
     font-weight: bold;
     color: #888888; }
+  body .vis-coalitions .label.bottom.winner {
+    color: black;
+    font-size: 14px; }
   body .vis-coalitions .label.top span {
     font-weight: bold;
     background: white;

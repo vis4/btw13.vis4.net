@@ -14,6 +14,13 @@ $ () ->
     grid = {}
     bg = null
     partyColors = Common.partyColors
+    winner =
+        '13': 'SPD,GRÜNE'
+        '08': 'CDU,FDP'
+        '03': 'CDU,FDP'
+        '98': 'SPD'
+        '94': 'SPD'
+        '90': 'SPD,GRÜNE'
 
     $.fn.set = (txt) ->
         $('span', this).html txt
@@ -205,6 +212,15 @@ $ () ->
                 tl = '+' + tl if tl > 0
                 tl = '±' + tl if tl == 0
             sbc.toplabel.set tl
+
+            $('.label.bottom').removeClass 'winner'
+
+            setTimeout () ->
+                if not justParties
+                    if winner[election.yr] and stacked_bars[winner[election.yr]]
+                        stacked_bars[winner[election.yr]].bottomlabel.addClass 'winner'
+            , 2200
+
 
         # hide previous coalitions
         $.each stacked_bars, (key, bars) ->

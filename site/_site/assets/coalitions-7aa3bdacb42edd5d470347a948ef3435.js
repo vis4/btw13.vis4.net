@@ -26,6 +26,55 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     diff = 1;
     return (time==dur) ? beg+diff : diff * (-Math.pow(2, -10 * time/dur) + 1) + beg;
 };
+(function($) { 
+  $.fn.swipeEvents = function() {
+    return this.each(function() {
+      
+      var startX,
+          startY,
+          $this = $(this);
+      
+      $this.bind('touchstart', touchstart);
+      
+      function touchstart(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          startX = touches[0].pageX;
+          startY = touches[0].pageY;
+          $this.bind('touchmove', touchmove);
+        }
+        event.preventDefault();
+      }
+      
+      function touchmove(event) {
+        var touches = event.originalEvent.touches;
+        if (touches && touches.length) {
+          var deltaX = startX - touches[0].pageX;
+          var deltaY = startY - touches[0].pageY;
+          
+          if (deltaX >= 50) {
+            $this.trigger("swipeLeft");
+            event.preventDefault();
+          }
+          if (deltaX <= -50) {
+            $this.trigger("swipeRight");
+            event.preventDefault();
+          }
+          if (deltaY >= 50) {
+            $this.trigger("swipeUp");
+          }
+          if (deltaY <= -50) {
+            $this.trigger("swipeDown");
+          }
+          if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
+            $this.unbind('touchmove', touchmove);
+          }
+        }
+      }
+      
+    });
+  };
+})(jQuery);
 (function() {
   var Common, _ref;
 
@@ -158,7 +207,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
 (function() {
 
   $(function() {
-    var bar_w, bg, canvas, elections, get_coalitions, grid, height, partyColors, progn, render, stacked_bars, width, _coalitions, _cont, _lblcont;
+    var bar_w, bg, canvas, elections, get_coalitions, grid, height, partyColors, progn, render, stacked_bars, width, winner, _coalitions, _cont, _lblcont;
     _coalitions = ["CDU,SPD", "CDU,FDP", "CDU,GRÜNE", "SPD,GRÜNE", "SPD,FDP", "SPD,LINKE", "CDU,FDP,GRÜNE", "SPD,FDP,GRÜNE", "SPD,LINKE,GRÜNE"];
     _cont = $('#canvas');
     _lblcont = $('.vis-coalitions');
@@ -171,6 +220,14 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
     grid = {};
     bg = null;
     partyColors = Common.partyColors;
+    winner = {
+      '13': 'SPD,GRÜNE',
+      '08': 'CDU,FDP',
+      '03': 'CDU,FDP',
+      '98': 'SPD',
+      '94': 'SPD',
+      '90': 'SPD,GRÜNE'
+    };
     $.fn.set = function(txt) {
       return $('span', this).html(txt);
     };
@@ -395,7 +452,15 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
             tl = '±' + tl;
           }
         }
-        return sbc.toplabel.set(tl);
+        sbc.toplabel.set(tl);
+        $('.label.bottom').removeClass('winner');
+        return setTimeout(function() {
+          if (!justParties) {
+            if (winner[election.yr] && stacked_bars[winner[election.yr]]) {
+              return stacked_bars[winner[election.yr]].bottomlabel.addClass('winner');
+            }
+          }
+        }, 2200);
       });
       $.each(stacked_bars, function(key, bars) {
         var found;
