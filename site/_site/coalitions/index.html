@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<title>Rot-Grün gewinnt die Wahlen in Niedersachsen <small>(vorläufig)</small></title>
+<title>Coalition of Social Democrats and Greens won!</title>
 
 <link href='/assets/global-f55fcf481c7bba5293f1b93691a57aec.css' rel='stylesheet' type='text/css' />
 
@@ -31,61 +31,59 @@
 <div id="container">
   <header class="group">
     <div class="header-inner">
-        <h1 class="title"><a href="/">Landtagswahl<br/>in Niedersachsen</a></h1>
+        <h1 class="title"><a href="/">Lower Saxony<br/>State Election</a></h1>
     </div>
     <div class="menu">
         
         
         
-        <div class="item"><a href="/wahlkreise/">Alle Wahlkreise</a></div>
+        <div class="item"><a href="/timeseries/">Time Series</a></div>
         
         
         
-        <div class="item"><a href="/zeitreihen/">Zeitreihen</a></div>
+        <div class="item"><a href="/coalitionmaps/">Coalition Maps</a></div>
         
         
         
-        <div class="item"><a href="/koalitionskarten/">Koalitionskarten</a></div>
+        <div class="item"><a href="/electionmaps/">Election maps</a></div>
         
         
         
-        <div class="item"><a href="/wahlkarten/">Wahlkarten</a></div>
-        
-        
-        
-        <div class="item active"><a href="/koalitionen/">Wahlgewinner</a></div>
+        <div class="item active"><a href="/coalitions/">Coalitions</a></div>
         
     </div>
-    <h2 class="subtitle">Rot-Grün gewinnt die Wahlen in Niedersachsen <small>(vorläufig)</small></h2>
+    <h2 class="subtitle">Coalition of Social Democrats and Greens won!</h2>
 
   </header>
-  <div id="content" class="koalitionen">
+  <div id="content" class="coalitions">
     
     
       <div class="vis-coalitions">
     <div class="desc">
         <div class="desc-intro">
 
-            <p>Nach gängiger Interpretation gewinnt die Wahlen, wer sich am Ende als Teil einer Regierung wiederfindet. </p>
+            <p>The party with the most votes has not necessarily won the election. Instead parties are forced to form coalitions.</p>
 
-            <p>Die typischerweise zur Visualisierung von Wahlergebnissen verwendeten Balkendiagramme (<em>siehe rechts</em>) beantworten die Frage nach dem ”Gewinner” einer Wahl kaum. Eine Partei kann die meisten Stimmen erhalten, und doch in der Opposition landen.</p>
+            <p>In political systems like Germany, where we have no party getting anything near 50% of the votes, the usual one-bar-per-party bar charts (shown on the right) totally fail answering this most important question.</p>
 
-            <p>Abhilfe schafft die folgende Darstellung, die statt der einzelnen Parteien die <b>Koalitionen in den Mittelpunkt</b> stellt. Klicken zum Vergrößern!</p>
+            <p>The alternative visualization below fixes this!</p>
 <br/>
             <a href="#activate" ><img style="border:3px solid #9bc;padding:4px;border-radius:4px;box-shadow: 0px 0px 13px #bde" src="/assets/img/koalitionen.png" /></a>
         </div>
         <div class="desc-impossible">
-            <p>Zum Vergleich sind auf der rechten Seite die rechnerisch unmöglichen Koalitionen gegenübergestellt.</p>
-            <p>Die Zahl über den Balken zeigt, wieviele Sitze zur Mehrheit fehlen.</p>
+            <p>On the right the impossible coalitions are shown for comparison.</p>
+            <p>The numbers above the bars show how many seats are missing for a majority.</p>
         </div>
-        <div class="desc-possible" data-latest="Die linke Seite zeigt alle rechnerisch möglichen Regierungskonstellationen. Rot-Grün kann mit hauchdünner Mehrheit regieren. Die Zahl über den Balken zeigt, wieviele Sitze die jeweilige Koalition (oder Partei) über die erforderliche Mehrheit hinaus hat.">
-            Die linke Seite zeigt alle rechnerisch möglichen Regierungskonstellationen. Dabei wurden auch politisch unwahrscheinlichere Koalitionen wie etwa Rot-Rot oder die Jamaika-Koalition berücksichtigt. Die Zahl über den Balken zeigt, wieviele Sitze die jeweilige Koalition (oder Partei) über die erforderliche Mehrheit hinaus hat.
+        <div class="desc-possible">
+            The left side shows what governing coalitions are arithmetically feasible. We also included politically unlikely coalitions such as SPD-LINKE or the <a href="https://en.wikipedia.org/wiki/Jamaica_coalition_(politics)">Jamaica coalition</a>.
+
+            The numbers above the bars show the number of seats the coalition has in excess of the majority.
         </div>
     </div>
     <div id="canvas"></div>
 </div>
 
-<p class="prognosen">* <em>Prognose wählen:</em> <br/>
+<p class="prognosen">* <em>Select election forecast:</em> <br/>
     ARD / Infratest Dimap:&nbsp;&nbsp;
     
         <a href="#ard-2320">23:20</a>&nbsp;&nbsp;
@@ -143,14 +141,14 @@
     
 
     <div>
-        Quellen: <br />
+        Sources: <br />
         - Landesbetrieb für Statistik und Kommunikationstechnologie Niedersachsen, 2001-2012.<br />
         - Wahlrecht.de: <a href="http://www.wahlrecht.de/news/2013/landtagswahl-niedersachsen-2013.html#prognosen-hochrechnungen">18 Uhr-Prognosen und Hochrechnungen am Wahlabend</a>
       </div>
 
       <div class="right" style="line-height: 27px">
         
-      Idee, Recherche und Visualisierung: <a href="http://driven-by-data.net">Gregor Aisch</a>
+      Idea &amp; Visualization: <a href="http://driven-by-data.net">Gregor Aisch</a>
     <br/>
           <div style="float:right">
           <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://nds2013.vis4.net/"></a>

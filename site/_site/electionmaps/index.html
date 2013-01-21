@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<title>Auf die Zweitstimme kommt es an!</title>
+<title>Election Maps</title>
 
 <link href='/assets/global-f55fcf481c7bba5293f1b93691a57aec.css' rel='stylesheet' type='text/css' />
 
@@ -10,7 +10,15 @@
   <script type="text/javascript">!window.jQuery.ui && document.write(unescape('%3Cscript src="/assets/js/jquery.min.js"%3E%3C/script%3E'))</script>
 
   
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script type="text/javascript">!window.Raphael.version && document.write(unescape('%3Cscript src="/assets/js/raphael-min.js"%3E%3C/script%3E'))</script>
   
+  
+  <script type="text/javascript" src="/assets/js/kartograph.min.js"></script>
+  <script type="text/javascript" src="/assets/js/jquery.qtip.min.js"></script>
+  
+  
+  <script type="text/javascript" src="/assets/js/chroma.min.js"></script>
   
   <meta http-equiv="Content-Type" content="text/html; charset=utf8">
   <meta name="viewport" content="width=1034, user-scalable=yes" />  <script type="text/javascript">
@@ -28,43 +36,70 @@
 <div id="container">
   <header class="group">
     <div class="header-inner">
-        <h1 class="title"><a href="/">Landtagswahl<br/>in Niedersachsen</a></h1>
+        <h1 class="title"><a href="/">Lower Saxony<br/>State Election</a></h1>
     </div>
     <div class="menu">
         
         
         
-        <div class="item"><a href="/wahlkreise/">Alle Wahlkreise</a></div>
+        <div class="item"><a href="/timeseries/">Time Series</a></div>
         
         
         
-        <div class="item"><a href="/zeitreihen/">Zeitreihen</a></div>
+        <div class="item"><a href="/coalitionmaps/">Coalition Maps</a></div>
         
         
         
-        <div class="item"><a href="/koalitionskarten/">Koalitionskarten</a></div>
+        <div class="item active"><a href="/electionmaps/">Election maps</a></div>
         
         
         
-        <div class="item"><a href="/wahlkarten/">Wahlkarten</a></div>
-        
-        
-        
-        <div class="item"><a href="/koalitionen/">Wahlgewinner</a></div>
+        <div class="item"><a href="/coalitions/">Coalitions</a></div>
         
     </div>
-    <h2 class="subtitle">Auf die Zweitstimme kommt es an!</h2>
+    <h2 class="subtitle">Election Maps</h2>
 
   </header>
-  <div id="content" class="">
+  <div id="content" class="electionmaps">
     
     
-      <p style="width:25%">Das Wahlrecht in Niedersachsen gleich Überhangmandate mit ebenso vielen Ausgleichsmandaten aus. Dies hat zur Folge, dass <b>allein die Zweitstimme</b> über die Mehrheiten in der Landesregierung entscheidet.</p>
-<div class="koalitionen">
-    <div id="canvas"></div>
+      <div id="map-controls" style="display:none">
+    <h1 class="key">CDU</h1>
+    <!--<h2>Zweitstimmenanteil bei<br/>der Landtagswahl <span class="yr"></span></h2>-->
+
+    <p>The map shows the <b>second votes of the <span class="key"></span> at the Lower Saxony state election of <span class="yr"></span></b>, mapped onto the eleciton districts of 2013.</p>
+
+    <p>The maps give insights about the geographical distribution of votes of single parties. The historical comaprison is possible as the same color scales are applied for each year.</p>
+
+    <label>Show a different party</label>
+    <select id="other-parties">
+    </select>
+
+    <div class="map-type-sel">
+        <label>Switch map type:</label>
+        <p>The largest election districts (by area) often represent fewer voters than for instance the election districts inside bigger city. An alternative view (so called Dorling cartogram) corrects this.</p>
+        <div class="btn-group map-type">
+          <button data-type="choropleth" class="btn btn-primary">Geographical</button>
+          <button data-type="dorling" class="btn">Cartogram (by voters)</button>
+        </div>
+    </div>
+
+    <div class="legend">
+        <label>Color legend:</label>
+        <div class="col-legend"></div>
+    </div>
+
+</div>
+<div id="map"></div>
+<div id="map-thumbs">
+
 </div>
 
-Foo
+
+<script src='/assets/maps-7ffbd9575a97b461d39f32ce64aeb149.js' type='text/javascript'></script>
+
+
+
 
     
   </div>
@@ -72,14 +107,14 @@ Foo
     
 
     <div>
-        Quellen: <br />
+        Sources: <br />
         - Landesbetrieb für Statistik und Kommunikationstechnologie Niedersachsen, 2001-2012.<br />
         - Wahlrecht.de: <a href="http://www.wahlrecht.de/news/2013/landtagswahl-niedersachsen-2013.html#prognosen-hochrechnungen">18 Uhr-Prognosen und Hochrechnungen am Wahlabend</a>
       </div>
 
       <div class="right" style="line-height: 27px">
         
-      Idee, Recherche und Visualisierung: <a href="http://driven-by-data.net">Gregor Aisch</a>
+      Idea &amp; Visualization: <a href="http://driven-by-data.net">Gregor Aisch</a>
     <br/>
           <div style="float:right">
           <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://nds2013.vis4.net/"></a>
@@ -89,7 +124,7 @@ Foo
   </div>
 </div>
   
-  <script type="text/javascript" src="vis.js"></script>
+  
 
 <!-- Piwik --> <script type="text/javascript"> 
 var _paq = _paq || []; 

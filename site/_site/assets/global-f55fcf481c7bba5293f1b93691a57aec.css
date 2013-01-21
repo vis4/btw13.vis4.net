@@ -825,7 +825,7 @@ body .vis-coalitions {
     top: 400px;
     font-weight: bold;
     color: #888888; }
-  body .vis-coalitions .label.bottom.winner {
+  body .vis-coalitions .label.bottom.winnerr {
     color: black;
     font-size: 14px; }
   body .vis-coalitions .label.top span {
@@ -839,21 +839,21 @@ body .vis-coalitions {
   body .vis-coalitions .label.min-seats {
     font-weight: bold; }
 
-.wahlkarten, .maps, .koalitionskarten {
+.wahlkarten, .electionmaps, .koalitionskarten, .coalitionmaps {
   position: relative;
   height: 850px; }
-  .wahlkarten #map, .maps #map, .koalitionskarten #map {
+  .wahlkarten #map, .electionmaps #map, .koalitionskarten #map, .coalitionmaps #map {
     position: absolute;
     top: 200px;
     left: 300px;
     width: 700px; }
-  .wahlkarten #map-controls, .maps #map-controls, .koalitionskarten #map-controls {
+  .wahlkarten #map-controls, .electionmaps #map-controls, .koalitionskarten #map-controls, .coalitionmaps #map-controls {
     position: absolute;
     top: 220px;
     height: 550px;
     left: 0px;
     width: 280px; }
-    .wahlkarten #map-controls h1, .maps #map-controls h1, .koalitionskarten #map-controls h1 {
+    .wahlkarten #map-controls h1, .electionmaps #map-controls h1, .koalitionskarten #map-controls h1, .coalitionmaps #map-controls h1 {
       font-size: 58px;
       font-weight: 300;
       position: relative;
@@ -862,32 +862,32 @@ body .vis-coalitions {
       line-height: 64px;
       margin-bottom: 20px;
       text-shadow: 2px 2px 10px white; }
-    .wahlkarten #map-controls h2, .maps #map-controls h2, .koalitionskarten #map-controls h2 {
+    .wahlkarten #map-controls h2, .electionmaps #map-controls h2, .koalitionskarten #map-controls h2, .coalitionmaps #map-controls h2 {
       font-size: 20px;
       font-weight: normal;
       letter-spacing: -1;
       line-height: 24px;
       margin-bottom: 20px;
       color: #666666; }
-    .wahlkarten #map-controls label, .maps #map-controls label, .koalitionskarten #map-controls label {
+    .wahlkarten #map-controls label, .electionmaps #map-controls label, .koalitionskarten #map-controls label, .coalitionmaps #map-controls label {
       font-weight: bold;
       font-size: 14px;
       display: block;
       margin-top: 20px;
       margin-bottom: 5px; }
-    .wahlkarten #map-controls p, .maps #map-controls p, .koalitionskarten #map-controls p {
+    .wahlkarten #map-controls p, .electionmaps #map-controls p, .koalitionskarten #map-controls p, .coalitionmaps #map-controls p {
       margin-bottom: 10px; }
-    .wahlkarten #map-controls .map-type-sel, .maps #map-controls .map-type-sel, .koalitionskarten #map-controls .map-type-sel {
+    .wahlkarten #map-controls .map-type-sel, .electionmaps #map-controls .map-type-sel, .koalitionskarten #map-controls .map-type-sel, .coalitionmaps #map-controls .map-type-sel {
       position: absolute;
       left: 0;
       bottom: 0; }
-    .wahlkarten #map-controls .legend, .maps #map-controls .legend, .koalitionskarten #map-controls .legend {
+    .wahlkarten #map-controls .legend, .electionmaps #map-controls .legend, .koalitionskarten #map-controls .legend, .coalitionmaps #map-controls .legend {
       position: absolute;
       left: 360px;
       bottom: 0px;
       width: 320px;
       z-index: 10000; }
-      .wahlkarten #map-controls .legend .col-legend div, .maps #map-controls .legend .col-legend div, .koalitionskarten #map-controls .legend .col-legend div {
+      .wahlkarten #map-controls .legend .col-legend div, .electionmaps #map-controls .legend .col-legend div, .koalitionskarten #map-controls .legend .col-legend div, .coalitionmaps #map-controls .legend .col-legend div {
         display: inline-block;
         line-height: 40px;
         font-size: 11px;
@@ -896,22 +896,22 @@ body .vis-coalitions {
         border-radius: 0;
         text-align: center;
         cursor: pointer; }
-      .wahlkarten #map-controls .legend .col-legend div:first-child, .maps #map-controls .legend .col-legend div:first-child, .koalitionskarten #map-controls .legend .col-legend div:first-child {
+      .wahlkarten #map-controls .legend .col-legend div:first-child, .electionmaps #map-controls .legend .col-legend div:first-child, .koalitionskarten #map-controls .legend .col-legend div:first-child, .coalitionmaps #map-controls .legend .col-legend div:first-child {
         border-radius: 6px 0 0 6px; }
-      .wahlkarten #map-controls .legend .col-legend div:last-child, .maps #map-controls .legend .col-legend div:last-child, .koalitionskarten #map-controls .legend .col-legend div:last-child {
+      .wahlkarten #map-controls .legend .col-legend div:last-child, .electionmaps #map-controls .legend .col-legend div:last-child, .koalitionskarten #map-controls .legend .col-legend div:last-child, .coalitionmaps #map-controls .legend .col-legend div:last-child {
         border-radius: 0 6px 6px 0; }
-  .wahlkarten #map-thumbs, .maps #map-thumbs, .koalitionskarten #map-thumbs {
+  .wahlkarten #map-thumbs, .electionmaps #map-thumbs, .koalitionskarten #map-thumbs, .coalitionmaps #map-thumbs {
     position: absolute;
     left: 0px;
     width: 1000px;
     height: 200px;
     top: 0px; }
-    .wahlkarten #map-thumbs .thumb, .maps #map-thumbs .thumb, .koalitionskarten #map-thumbs .thumb {
+    .wahlkarten #map-thumbs .thumb, .electionmaps #map-thumbs .thumb, .koalitionskarten #map-thumbs .thumb, .coalitionmaps #map-thumbs .thumb {
       display: inline-block;
       width: 200px;
       height: 200px;
       position: relative; }
-      .wahlkarten #map-thumbs .thumb label, .maps #map-thumbs .thumb label, .koalitionskarten #map-thumbs .thumb label {
+      .wahlkarten #map-thumbs .thumb label, .electionmaps #map-thumbs .thumb label, .koalitionskarten #map-thumbs .thumb label, .coalitionmaps #map-thumbs .thumb label {
         font-weight: bold;
         font-size: 14px;
         position: absolute;
@@ -919,21 +919,21 @@ body .vis-coalitions {
         width: 50px;
         text-align: center;
         bottom: 50px; }
-    .wahlkarten #map-thumbs .bottom, .maps #map-thumbs .bottom, .koalitionskarten #map-thumbs .bottom {
+    .wahlkarten #map-thumbs .bottom, .electionmaps #map-thumbs .bottom, .koalitionskarten #map-thumbs .bottom, .coalitionmaps #map-thumbs .bottom {
       position: absolute;
       bottom: 0;
       left: 100px;
       width: 200px; }
 
-.koalitionskarten #map-controls {
+.koalitionskarten #map-controls, .coalitionmaps #map-controls {
   z-index: 1000; }
-  .koalitionskarten #map-controls h1 {
+  .koalitionskarten #map-controls h1, .coalitionmaps #map-controls h1 {
     font-size: 40px; }
-  .koalitionskarten #map-controls .coal {
+  .koalitionskarten #map-controls .coal, .coalitionmaps #map-controls .coal {
     position: relative;
     height: 28px;
     cursor: pointer; }
-    .koalitionskarten #map-controls .coal .prev {
+    .koalitionskarten #map-controls .coal .prev, .coalitionmaps #map-controls .coal .prev {
       display: block;
       position: absolute;
       left: 0px;
@@ -941,17 +941,17 @@ body .vis-coalitions {
       width: 20px;
       height: 20px;
       border-radius: 3px; }
-    .koalitionskarten #map-controls .coal span {
+    .koalitionskarten #map-controls .coal span, .coalitionmaps #map-controls .coal span {
       display: block;
       position: absolute;
       left: 30px;
       top: 0;
       line-height: 28px; }
-  .koalitionskarten #map-controls .coal.active span {
+  .koalitionskarten #map-controls .coal.active span, .coalitionmaps #map-controls .coal.active span {
     font-weight: bold; }
-  .koalitionskarten #map-controls .num-wk {
+  .koalitionskarten #map-controls .num-wk, .coalitionmaps #map-controls .num-wk {
     font-weight: bold; }
-.koalitionskarten #map-thumbs .thumb label {
+.koalitionskarten #map-thumbs .thumb label, .coalitionmaps #map-thumbs .thumb label {
   text-align: left;
   left: 20px;
   bottom: 40px; }
