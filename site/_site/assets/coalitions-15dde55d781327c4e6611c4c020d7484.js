@@ -273,7 +273,7 @@ Raphael.easing_formulas['expoOut'] = function (n, time, beg, diff, dur) {
             if (c.parties.length === 2) {
               if (c.parties[0].name === coalition.parties[0].name) {
                 if (c.parties[1].name === coalition.parties[1].name || c.parties[1].name === coalition.parties[2].name) {
-                  if (c.seats > election.min_seats) {
+                  if (c.seats >= election.min_seats) {
                     makessense = false;
                     return false;
                   }
