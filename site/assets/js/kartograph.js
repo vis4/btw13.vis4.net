@@ -1,46 +1,25 @@
-/*!
- *
- *    kartograph - a svg mapping library 
- *    Copyright (C) 2011,2012  Gregor Aisch
- *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * 
- */
-
-
 /*
-    Kartograph - a svg mapping library
-    Copyright (C) 2011,2012  Gregor Aisch
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ *  Kartograph - a svg mapping library
+ *  Copyright (C) 2011-2013  Gregor Aisch
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ *
 */
 
 
 (function() {
-  var $, Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
+  var $, Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -50,21 +29,35 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.5.1";
+  kartograph.version = "0.5.2";
 
   $ = root.jQuery;
 
-  __verbose__ = false && (typeof console !== "undefined" && console !== null);
+  kartograph.__verbose = false;
 
   warn = function(s) {
-    if (__verbose__) {
-      return console.warn('kartograph (' + kartograph.version + '): ', s);
+    try {
+      return console.warn.apply(console, arguments);
+    } catch (e) {
+      try {
+        return opera.postError.apply(opera, arguments);
+      } catch (e) {
+        return alert(Array.prototype.join.call(arguments, ' '));
+      }
     }
   };
 
   log = function(s) {
-    if (__verbose__) {
-      return console.log('kartograph (' + kartograph.version + '): ', s);
+    if (kartograph.__verbose) {
+      try {
+        return console.debug.apply(console, arguments);
+      } catch (e) {
+        try {
+          return opera.postError.apply(opera, arguments);
+        } catch (e) {
+          return alert(Array.prototype.join.call(arguments, ' '));
+        }
+      }
     }
   };
 
@@ -616,7 +609,12 @@
       return null;
     };
 
-    Kartograph.prototype.onLayerEvent = function(event, callback, layerId) {};
+    Kartograph.prototype.onLayerEvent = function(event, callback, layerId) {
+      var me;
+      me = this;
+      me.getLayer(layerId).on(event, callback);
+      return me;
+    };
 
     Kartograph.prototype.addMarker = function(marker) {
       var me, xy;
@@ -734,13 +732,6 @@
       }
       a = me.proj.project(lonlat.lon, lonlat.lat, lonlat.alt);
       return me.viewBC.project(me.viewAB.project(a));
-    };
-
-    Kartograph.prototype.showZoomControls = function() {
-      var me;
-      me = this;
-      me.zc = new PanAndZoomControl(me);
-      return me;
     };
 
     Kartograph.prototype.addSymbolGroup = function(symbolgroup) {
@@ -1180,6 +1171,13 @@
           },
           show: {
             delay: delay != null ? delay : 20
+          },
+          events: {
+            show: function(evt, api) {
+              return $('.qtip').filter(function() {
+                return this !== api.elements.tooltip.get(0);
+              }).hide();
+            }
           },
           content: {}
         };
@@ -2339,8 +2337,8 @@
       }
       phi = s.deg(phi - s.RC1 * i);
       i *= 4;
-      x = s._poly(s.X, i, phi) * s.FXC * lplam;
-      y = s._poly(s.Y, i, phi) * s.FYC;
+      x = 1000 * s._poly(s.X, i, phi) * s.FXC * lplam;
+      y = 1000 * s._poly(s.Y, i, phi) * s.FYC;
       if (lpphi < 0.0) {
         y = -y;
       }
@@ -4009,87 +4007,6 @@
   */
 
 
-  PanAndZoomControl = (function() {
-
-    function PanAndZoomControl(map) {
-      this.zoomOut = __bind(this.zoomOut, this);
-
-      this.zoomIn = __bind(this.zoomIn, this);
-
-      var c, div, mdown, me, mup, zc, zcm, zcp;
-      me = this;
-      me.map = map;
-      c = map.container;
-      div = function(className, childNodes) {
-        var child, d, _i, _len;
-        if (childNodes == null) {
-          childNodes = [];
-        }
-        d = $('<div class="' + className + '" />');
-        for (_i = 0, _len = childNodes.length; _i < _len; _i++) {
-          child = childNodes[_i];
-          d.append(child);
-        }
-        return d;
-      };
-      mdown = function(evt) {
-        return $(evt.target).addClass('md');
-      };
-      mup = function(evt) {
-        return $(evt.target).removeClass('md');
-      };
-      zcp = div('plus');
-      zcp.mousedown(mdown);
-      zcp.mouseup(mup);
-      zcp.click(me.zoomIn);
-      zcm = div('minus');
-      zcm.mousedown(mdown);
-      zcm.mouseup(mup);
-      zcm.click(me.zoomOut);
-      zc = div('zoom-control', [zcp, zcm]);
-      c.append(zc);
-    }
-
-    PanAndZoomControl.prototype.zoomIn = function(evt) {
-      var me;
-      me = this;
-      me.map.opts.zoom += 1;
-      return me.map.resize();
-    };
-
-    PanAndZoomControl.prototype.zoomOut = function(evt) {
-      var me;
-      me = this;
-      me.map.opts.zoom -= 1;
-      if (me.map.opts.zoom < 1) {
-        me.map.opts.zoom = 1;
-      }
-      return me.map.resize();
-    };
-
-    return PanAndZoomControl;
-
-  })();
-
-  /*
-      kartograph - a svg mapping library 
-      Copyright (C) 2011  Gregor Aisch
-  
-      This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public
-      License as published by the Free Software Foundation; either
-      version 2.1 of the License, or (at your option) any later version.
-  
-      This library is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-      Lesser General Public License for more details.
-  
-      You should have received a copy of the GNU Lesser General Public
-      License along with this library. If not, see <http://www.gnu.org/licenses/>.
-  */
-
-
   Scale = (function() {
     /* scales map values to [0..1]
     */
@@ -4834,7 +4751,14 @@
           show: {
             delay: 20
           },
-          content: {}
+          content: {},
+          events: {
+            show: function(evt, api) {
+              return $('.qtip').filter(function() {
+                return this !== api.elements.tooltip.get(0);
+              }).hide();
+            }
+          }
         };
         tt = tooltips(s.data, s.key);
         if (__type(tt) === "string") {
@@ -4862,9 +4786,12 @@
       }
     };
 
-    SymbolGroup.prototype.update = function(opts) {
+    SymbolGroup.prototype.update = function(opts, duration, easing) {
       var p, s, _i, _j, _len, _len1, _ref6, _ref7;
       me = this;
+      if (!(opts != null)) {
+        opts = {};
+      }
       _ref6 = me.symbols;
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
         s = _ref6[_i];
@@ -4873,9 +4800,11 @@
           p = _ref7[_j];
           if (opts[p] != null) {
             s[p] = me._evaluate(opts[p], s.data);
+          } else if (me[p] != null) {
+            s[p] = me._evaluate(me[p], s.data);
           }
         }
-        s.update();
+        s.update(duration, easing);
       }
       return me;
     };
@@ -5201,23 +5130,36 @@ function kdtree() {
       return me;
     };
 
-    Bubble.prototype.update = function() {
-      var me, path;
+    Bubble.prototype.update = function(duration, easing) {
+      var attrs, me, path;
+      if (duration == null) {
+        duration = false;
+      }
+      if (easing == null) {
+        easing = 'expo-out';
+      }
       me = this;
       path = me.path;
-      path.attr({
+      attrs = {
         cx: me.x,
         cy: me.y,
         r: me.radius
-      });
+      };
       if (me.attrs != null) {
-        path.attr(me.attrs);
+        attrs = $.extend(attrs, me.attrs);
       }
-      if (me.style != null) {
-        path.node.setAttribute('style', me.style);
+      if (!duration) {
+        path.attr(attrs);
+      } else {
+        path.animate(attrs, duration, easing);
       }
-      if (me["class"] != null) {
-        path.node.setAttribute('class', me["class"]);
+      if (path.node != null) {
+        if (me.style != null) {
+          path.node.setAttribute('style', me.style);
+        }
+        if (me["class"] != null) {
+          path.node.setAttribute('class', me["class"]);
+        }
       }
       if (me.title != null) {
         path.attr('title', me.title);
@@ -5537,10 +5479,16 @@ function kdtree() {
       return me;
     };
 
-    LabeledBubble.prototype.update = function() {
+    LabeledBubble.prototype.update = function(duration, easing) {
       var attrs, me, vp, x, y;
+      if (duration == null) {
+        duration = false;
+      }
+      if (easing == null) {
+        easing = 'expo-out';
+      }
       me = this;
-      LabeledBubble.__super__.update.apply(this, arguments);
+      LabeledBubble.__super__.update.call(this, duration, easing);
       if (me.label != null) {
         vp = me.map.viewport;
         attrs = $.extend({}, me.labelattrs);
@@ -5715,7 +5663,14 @@ function kdtree() {
     };
 
     PieChart.prototype.nodes = function() {
-      return [me.path.node];
+      var el, _i, _len, _ref6, _results;
+      _ref6 = me.chart;
+      _results = [];
+      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+        el = _ref6[_i];
+        _results.push(el.node);
+      }
+      return _results;
     };
 
     return PieChart;
@@ -5788,55 +5743,6 @@ function kdtree() {
   };
 
   /*
-  
-  drawPieChart = function (cx, cy, r, values, labels, colors, stroke) {
-      var paper = this,
-          rad = Math.PI / 180,
-          chart = this.set();
-      function sector(cx, cy, r, startAngle, endAngle, params) {
-          var x1 = cx + r * Math.cos(-startAngle * rad),
-              x2 = cx + r * Math.cos(-endAngle * rad),
-              y1 = cy + r * Math.sin(-startAngle * rad),
-              y2 = cy + r * Math.sin(-endAngle * rad);
-          return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
-      }
-      var angle = -270,
-          total = 0,
-          start = 1,
-          process = function (j) {
-              var value = values[j],
-                  angleplus = 360 * value / total,
-                  popangle = angle + (angleplus / 2),
-                  color = colors[j],
-                  ms = 500,
-                  delta = 30,
-                  bcolor = Raphael.hsb(start, .6, 1),
-                  p = sector(cx, cy, r, angle, angle + angleplus, {fill: color, stroke: stroke, "stroke-width": 1}),
-                  txt = paper.text(cx + (r*1.5) * Math.cos(-popangle * rad), cy + (r *1.5) * Math.sin(-popangle * rad), labels[j]).attr({fill: "#000", stroke: "none", opacity: 0, "font-size": 13});
-              p.mouseover(function () {
-                  p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
-                  txt.stop().animate({opacity: 1}, ms, "elastic");
-              }).mouseout(function () {
-                  p.stop().animate({transform: ""}, ms, "elastic");
-                  txt.stop().animate({opacity: 0}, ms);
-              });
-              angle += angleplus;
-              chart.push(p);
-              chart.push(txt);
-              start -= .4;
-          };
-      for (var i = 0, ii = values.length; i < ii; i++) {
-          total += values[i];
-      }
-      for (i = ii-1; i >= 0; i--) {
-          process(i);
-      }
-      return chart;
-  };
-  */
-
-
-  /*
       kartograph - a svg mapping library 
       Copyright (C) 2011,2012  Gregor Aisch
   
@@ -5903,14 +5809,14 @@ drawStackedBars = function (cx, cy, w, h, values, labels, colors, stroke) {
     __extends(StackedBarChart, _super);
 
     /*
-    	usage:
-    	new SymbolMap({
-    		map: map,
-    		radius: 10
-    		data: [25,75],
-    		colors: ['red', 'blue'],
-    		titles: ['red pie', 'blue pie']
-    	})
+        usage:
+        new SymbolMap({
+            map: map,
+            radius: 10
+            data: [25,75],
+            colors: ['red', 'blue'],
+            titles: ['red pie', 'blue pie']
+        })
     */
 
 
@@ -5993,9 +5899,15 @@ drawStackedBars = function (cx, cy, w, h, values, labels, colors, stroke) {
     };
 
     StackedBarChart.prototype.nodes = function() {
-      var me;
+      var el, me, _i, _len, _ref6, _results;
       me = this;
-      return [me.path.node];
+      _ref6 = me.chart;
+      _results = [];
+      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+        el = _ref6[_i];
+        _results.push(el.node);
+      }
+      return _results;
     };
 
     return StackedBarChart;
