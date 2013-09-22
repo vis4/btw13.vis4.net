@@ -2,7 +2,8 @@
 
 $ () ->
 
-    _coalitions = ["CDU,SPD", "CDU,FDP", "CDU,GRÜNE", "SPD,GRÜNE", "SPD,FDP", "SPD,LINKE", "CDU,FDP,GRÜNE", "SPD,FDP,GRÜNE", "SPD,LINKE,GRÜNE"]
+    _coalitions = ["CDU,SPD", "CDU,FDP", "CDU,FDP,PIRATEN", "CDU,GRÜNE", "SPD,GRÜNE", "SPD,FDP",
+        "SPD,LINKE", "CDU,FDP,GRÜNE", "SPD,FDP,GRÜNE", "SPD,LINKE,GRÜNE"]
     _cont = $ '#canvas'
     _lblcont = $ '.vis-coalitions'
     canvas = Raphael _cont.get 0
@@ -11,11 +12,12 @@ $ () ->
     width = _cont.width()
     height = _cont.height()-12
     stacked_bars = {}
+    current_poll = null
     grid = {}
     bg = null
     partyColors = Common.partyColors
     winner =
-        '13': 'SPD,GRÜNE'
+        #'13': 'SPD,GRÜNE'
         '08': 'CDU,FDP'
         '03': 'CDU,FDP'
         '98': 'SPD'
@@ -25,24 +27,31 @@ $ () ->
     $.fn.set = (txt) ->
         $('span', this).html txt
 
-    get_coalitions = (election, justParties=false) ->
+    get_coalitions = (poll, justParties) ->
+        seats = poll.seats
         coalitions = []
-        election.min_seats = Math.ceil((election.s + 0.5) * 0.5)
+        sum_seats = _.reduce seats, (s, v) ->
+            s + v
+        , 0
 
-        $.each _coalitions, (i) ->
+        min_seats = Math.ceil((sum_seats + 0.5) * 0.5)
+
+        _.each _coalitions, (parties, i) ->
             coalition =
                 id: i
-                key: _coalitions[i]
+                key: parties
                 parties: []
                 seats: 0
 
-            $.each _coalitions[i].split(','), (p, party) ->
-                if election.result[party] and election.result[party].s > 0 # if party has results
+            _.each parties.split(','), (party) ->
+                if not coalition
+                    return
+                if seats[party] # if party has results
                     coalition.parties.push  # add it to coalition
                         name: party
-                        seats: election.result[party].s
+                        seats: seats[party]
                     # and add their seats to the coalition seats
-                    coalition.seats += election.result[party].s
+                    coalition.seats += seats[party]
                 else
                     coalition = null
                     return false
@@ -57,43 +66,39 @@ $ () ->
         coalitions = coalitions.filter (coalition) ->
             if coalition.parties.length == 3
                 makessense = true
-                $.each coalitions, (i, c) ->
+                _.each coalitions, (c) ->
                     if c.parties.length == 2
                         if c.parties[0].name == coalition.parties[0].name
                             if c.parties[1].name == coalition.parties[1].name or c.parties[1].name == coalition.parties[2].name
-                                if c.seats >= election.min_seats
+                                if c.seats >= poll.min_seats
                                     makessense = false
                                     return false
                 makessense
             else
                 true
 
-        if justParties
-            coalitions = []
-
         # add individual parties for comparison
-        $.each election.result, (party) ->
-            if election.result[party].s > election.min_seats * 0.5 or (justParties and election.result[party].s > 0)
+        _.each seats, (s, party) ->
+            if s > min_seats * 0.5 or (justParties and s > 0)
                 coalitions.push
                     key: party
-                    seats: election.result[party].s
-                    parties: [{ name: party, seats: election.result[party].s }]
+                    seats: s
+                    parties: [{ name: party, seats: s }]
 
         # sort coalitions by majority
         coalitions.sort (a,b) ->
-            if a.seats >= election.min_seats && b.seats >= election.min_seats
+            if a.seats >= min_seats && b.seats >= min_seats
                 # sort by biggest party first, bc they have the
                 # privilege to set a government
                 if a.parties[0].seats != b.parties[0].seats
                     return b.parties[0].seats - a.parties[0].seats
             b.seats - a.seats;
         # return coalitions
+        poll.min_seats = min_seats
         coalitions
 
-
-    render = (election_index, justParties=false) ->
-        election = elections[election_index]
-        coalitions = get_coalitions election, justParties
+    render = (poll, justParties=false, firstLoad=false) ->
+        coalitions = get_coalitions poll, justParties
 
         bar_w = if justParties then 60 else 30
 
@@ -110,9 +115,7 @@ $ () ->
                 lbl.set txt
             lbl
 
-        if not justParties
-            $('.desc').hide()
-
+        $('.desc').hide()
         setTimeout () ->
             $('.desc').fadeIn 1000
         , 2000
@@ -139,7 +142,7 @@ $ () ->
                     h = 0
                     bar = canvas.rect x, height - h - y, bar_w, h
                     bar.attr
-                        stroke: if coalition.seats > election.min_seats then '#fff' else '#eee'
+                        stroke: if coalition.seats > poll.min_seats then '#fff' else '#eee'
                         opacity: 0.98
                         fill: partyColors[party.name] || ('#ccc' && console.log(party.name))
                     sbc[party.name] = bar
@@ -151,7 +154,7 @@ $ () ->
             # position the stacked bars
             y = 0
             x = Math.round 20 + i * bar_w * 1.8
-            if coalition.seats < election.min_seats
+            if coalition.seats < poll.min_seats
                 x += offset if not justParties
                 if possible
                     $('.desc-impossible').css
@@ -159,10 +162,6 @@ $ () ->
                     $('.desc-possible').css
                         left: x - offset
                     possible = false
-
-            if justParties
-                # move to the right
-                x += 340
 
             setTimeout () ->
                 sbc.bottomlabel.animate
@@ -176,7 +175,7 @@ $ () ->
                     opacity: 1
                 sbc.toplabel.animate
                     opacity: 1
-            , if justParties then 1000 else 2000
+            , 1000
             $.each coalition.parties, (j, party) ->
                 bar = sbc[party.name]
                 # animate bar heights and y position first
@@ -200,26 +199,23 @@ $ () ->
             sbc.toplabel.animate
                 top: height - y - 22
 
-            if justParties
-                tl = coalition.seats
-                sbc.toplabel.removeClass 'negative'
+
+            tl = coalition.seats - poll.min_seats
+            if tl < 0
+                sbc.toplabel.addClass 'negative'
             else
-                tl = coalition.seats - election.min_seats
-                if tl < 0
-                    sbc.toplabel.addClass 'negative'
-                else
-                    sbc.toplabel.removeClass 'negative'
-                tl = '+' + tl if tl > 0
-                tl = '±' + tl if tl == 0
+                sbc.toplabel.removeClass 'negative'
+            tl = '+' + tl if tl > 0
+            tl = '±' + tl if tl == 0
             sbc.toplabel.set tl
 
             $('.label.bottom').removeClass 'winner'
 
-            setTimeout () ->
-                if not justParties
-                    if winner[election.yr] and stacked_bars[winner[election.yr]]
-                        stacked_bars[winner[election.yr]].bottomlabel.addClass 'winner'
-            , 2200
+            # setTimeout () ->
+            #     if not justParties
+            #         if winner[election.yr] and stacked_bars[winner[election.yr]]
+            #             stacked_bars[winner[election.yr]].bottomlabel.addClass 'winner'
+            # , 2200
 
 
         # hide previous coalitions
@@ -273,17 +269,17 @@ $ () ->
 
         grid.bottom.toFront()
 
-        move_grid_line grid.min_seats, election.min_seats
+        move_grid_line grid.min_seats, poll.min_seats
 
         # init and move grid lines
-        $.each [20,40,60,80,100], (i,seats) ->
+        _.each [100,200,300], (seats) ->
             if not grid[seats]?
                 grid[seats] = init_grid_line()
                 grid[seats].attr
                     'stroke-dasharray': '- '
             move_grid_line grid[seats], seats
             lineprops =
-                opacity: if seats+5 < election.min_seats then 1 else 0
+                opacity: if seats+5 < poll.min_seats then 1 else 0
             grid[seats].animate lineprops, 500
             grid[seats].data('lbl').animate lineprops
             grid[seats].data('lbl2').animate lineprops
@@ -296,8 +292,8 @@ $ () ->
                 stroke: false
             bg.toBack()
         bgprops =
-            y: height - yscale(election.min_seats)
-            height: yscale(election.min_seats)
+            y: height - yscale(poll.min_seats)
+            height: yscale(poll.min_seats)
             opacity: 1
 
         if justParties
@@ -318,59 +314,57 @@ $ () ->
 
     $('.prognosen a[href=#'+progn+']').addClass 'active'
 
-    $.ajax
-        url: '/assets/data/'+progn+'.json'
-        dataType: 'json'
-    .done (json) ->
-        elections = json
+    prevJSON = undefined
 
-        active = elections.length-1
+    update = () ->
 
-        elections[active].s = 0
-        for p of elections[active].result
-            elections[active].s += Number(elections[active].result[p].s)
-        justParties = location.hash.length == 0
+        $.ajax
+            url: 'assets/data/hochrechnungen.json'
+            dataType: 'json'
+        .done (json) ->
 
-        elsel = Common.ElectionSelector elections, active
-        , (active) ->  # click callback
-            $('.prognosen a').removeClass 'active'
-            render active, justParties
-            true
-        , (e) ->  # function that extracts year
-            e.yr
+            firstLoad = _.isUndefined prevJSON
 
-        $('[href=#activate]').click ()->
-            justParties = false
-            render active, justParties
+            if !prevJSON || json.length != prevJSON.length
+                prevJSON = polls = json
 
-        render active, justParties
-        blocked = false
+                current_poll = false
 
-        $('.prognosen a').click (evt) ->
-            if blocked
-                return
-            blocked = true
-            evt.preventDefault()
-            a = $(evt.target)
-            prog = a.attr('href').substr(1)
-            $('.prognosen a').removeClass 'active'
-            $.getJSON '/assets/data/' + prog + '.json', (data) ->
-                latest = data[data.length-1]
-                different = false
-                latest.s = 0
-                for p of latest.result
-                    if elections[elections.length-1].result[p].s != latest.result[p].s
-                        different = true
-                    latest.s += Number(latest.result[p].s)
-                elections[elections.length-1] = latest
-                if different
-                    render active, justParties
-                a.addClass 'active'
-                location.hash = '#' + prog
+                cont = $ '.prognosen'
+                cont.html('')
+                # _.each _.keys(polls), (provider) ->
+                #     $('<label>'+provider+'</label>').appendTo cont
+                #     ul = $('<ul />').appendTo cont
+
+
+                _.each polls, (poll) ->
+                    li = $('<li><div class="provider">'+poll.institute+'</div><div>'+poll.time+'</div></li>')
+                    if not current_poll
+                        current_poll = poll
+                        li.addClass 'active'
+                    
+                    li.data 'poll', poll
+                    li.appendTo cont
+                        .click (evt) ->
+                            render $(evt.target).parent().data 'poll'
+                            $('.prognosen li').removeClass 'active'
+                            $(evt.target).parent().addClass 'active'
+
+                pollFromHash = (hash) ->
+                    [prov, time] = hash.substr(1).split '-'
+                    if polls[prov]
+                        _.find polls, (p) -> p.time == time
+
+                if firstLoad
+                    if location.hash
+                        poll = pollFromHash location.hash
+                        if poll
+                            current_poll = poll
+
+                render current_poll
                 blocked = false
 
-            
-            
-            # location.href = '/koalitionen/' + $(evt.target).attr('href')
-            # location.reload()
+            setTimeout update, 10000
+
+    update()
 

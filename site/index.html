@@ -1,25 +1,35 @@
 ---
 layout: default-de
-title: Visualisierungen zur Landtagswahl in Niedersachsen
-nav:
-- id: koalitionen
-  title: Wahlgewinner und Koalitionen
-- id: wahlkarten
-  title: Wahlkarten der Zweitstimmen
-- id: koalitionskarten
-  title: Lokale Koalitions-mehrheiten
-- id: zeitreihen
-  title: Historische Wahlergebnisse
-- id: wahlkreise
-  title: Alle Wahlkreise im Überblick
+title: "Mögliche Koalitionen bei der Bundestagswahl 2013 (TESTDATEN)"
+lang: de
+libs:
+    jquery: true
+    raphael: true
 ---
 
-<div class="row intro">
-    {% for p in page.nav %}
-    <div class="span6">
-      <h4><a href="/{{ p.id }}">{{ p.title }}</a></h4>
-        <a href="/{{ p.id }}"><img src="/assets/img/teaser/{{ p.id }}_snapseed.jpg" alt="{{ p.title }}" /></a>
-        
+<div class="vis-coalitions">
+    <div class="desc">
+        <div class="desc-intro">
+        </div>
+        <div class="desc-impossible">
+            <p>Zum Vergleich sind auf der rechten Seite die rechnerisch unmöglichen Koalitionen gegenübergestellt.</p>
+            <p>Die Zahl über den Balken zeigt, wieviele Sitze zur Mehrheit fehlen.</p>
+        </div>
+        <div class="desc-possible" data-latest="Die linke Seite zeigt alle rechnerisch möglichen Regierungskonstellationen. Rot-Grün kann mit hauchdünner Mehrheit regieren. Die Zahl über den Balken zeigt, wieviele Sitze die jeweilige Koalition (oder Partei) über die erforderliche Mehrheit hinaus hat.">
+            Die linke Seite zeigt alle rechnerisch möglichen Regierungskonstellationen. Dabei werden auch politisch unwahrscheinlichere Koalitionen berücksichtigt. Die Zahl über den Balken zeigt, wieviele Sitze die jeweilige Koalition (oder Partei) über die erforderliche Mehrheit hinaus hat.
+        </div>
     </div>
-    {% endfor %}
+    <div id="canvas"></div>
 </div>
+
+<div><em>Hochrechnung auswählen:</em> <br/>
+    <ul class="prognosen"></ul>
+</div>
+
+{% javascript_asset_tag coalitions %}
+- _assets/js/raphael.easing.js
+- _assets/js/jquery.swipe-events.js
+- _assets/js/common.js.coffee
+- _assets/js/coalitions.js.coffee
+{% endjavascript_asset_tag %}
+

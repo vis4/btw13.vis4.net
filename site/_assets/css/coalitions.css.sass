@@ -1,34 +1,38 @@
 // styles for coalition page
 
 body
+
+    a
+        color: #900
+
     #canvas
         height: 400px
 
     .vis-coalitions
         position: relative
-        margin: 50px 40px 70px 40px
+        margin: 50px 40px 40px 40px
 
         .desc
             div
                 position: absolute
                 z-index: 100
-                font-style: italic
+                font-family: Georgia
 
                 p
                     margin-top: 0
                     margin-bottom: 10px
 
             .desc-possible
-                background: #fff url(/assets/img/arr-left.png) left 10px no-repeat
-                top: 0px
-                width: 470px
+                background: #fff url(img/arr-left.png) left 10px no-repeat
+                top: -30px
+                width: 480px
                 padding: 5px
                 padding-left: 25px
                 text-align: left
                 min-height: 50px
 
             .desc-impossible
-                background: #f5f5f5 url(/assets/img/arr-right.png) right 10px no-repeat
+                background: #f5f5f5 url(img/arr-right.png) right 10px no-repeat
                 bottom: 30px
                 width: 170px
                 padding: 5px
@@ -89,3 +93,22 @@ body
         .label.min-seats
             font-weight: bold
 
+    .prognosen
+
+        list-style: none
+        margin: 0
+        padding: 0
+
+        li
+            display: inline-block
+            margin-right: 10px
+            line-height: 15px
+            color: #900
+            cursor: pointer
+
+            .provider
+                color: #222
+
+        li.active
+            div
+                font-weight: bold
